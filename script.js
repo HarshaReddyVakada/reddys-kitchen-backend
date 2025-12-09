@@ -1,343 +1,82 @@
 // ====================== CONFIG ==========================
-const API_BASE = "https://reddys-kitchen-backend.onrender.com";
+const API_BASE = 'https://reddys-kitchen-backend.onrender.com';
 
-// Restaurants + menu data with categories & veg/non-veg
-// (still local for now; backend also has some restaurants)
-const restaurantsData = [
-  {
-    id: "r1",
-    name: "NLR Specials",
-    cuisine: "Indian",
-    rating: 4.6,
-    deliveryTime: 30,
-    distance: "2.1 km",
-    emoji: "🍛",
-    image:
-      "https://images.pexels.com/photos/11170284/pexels-photo-11170284.jpeg?auto=compress&cs=tinysrgb&w=400",
-    menu: [
-      {
-        id: "r1m1",
-        name: "Nellore Chicken Dum Biryani",
-        price: 240,
-        tags: "Spicy • Non-Veg • Signature",
-        category: "Biryani",
-        veg: false
-      },
-      {
-        id: "r1m2",
-        name: "Special Mutton Biryani",
-        price: 310,
-        tags: "Non-Veg • Chef's Special",
-        category: "Biryani",
-        veg: false
-      },
-      {
-        id: "r1m3",
-        name: "Paneer Dum Biryani",
-        price: 220,
-        tags: "Veg • Mild",
-        category: "Biryani",
-        veg: true
-      },
-      {
-        id: "r1m4",
-        name: "Egg Fried Rice",
-        price: 180,
-        tags: "Non-Veg",
-        category: "Fried Rice",
-        veg: false
-      },
-      {
-        id: "r1m5",
-        name: "Double Ka Meetha",
-        price: 90,
-        tags: "Dessert",
-        category: "Dessert",
-        veg: true
-      },
-      {
-        id: "r1m6",
-        name: "Sweet Lassi",
-        price: 70,
-        tags: "Beverage",
-        category: "Beverage",
-        veg: true
-      }
-    ]
-  },
-  {
-    id: "r2",
-    name: "Bulugondla Family Restaurant",
-    cuisine: "Indian",
-    rating: 4.4,
-    deliveryTime: 28,
-    distance: "3.0 km",
-    emoji: "🍽️",
-    image:
-      "https://images.pexels.com/photos/5920740/pexels-photo-5920740.jpeg?auto=compress&cs=tinysrgb&w=400",
-    menu: [
-      {
-        id: "r2m1",
-        name: "Family Chicken Biryani (4 pax)",
-        price: 650,
-        tags: "Family Pack • Non-Veg",
-        category: "Biryani",
-        veg: false
-      },
-      {
-        id: "r2m2",
-        name: "Veg Family Meal Combo",
-        price: 520,
-        tags: "Veg • 4 Roti • Rice",
-        category: "Veg",
-        veg: true
-      },
-      {
-        id: "r2m3",
-        name: "Butter Chicken with Rice",
-        price: 260,
-        tags: "Non-Veg",
-        category: "Non-Veg",
-        veg: false
-      },
-      {
-        id: "r2m4",
-        name: "Curd Rice",
-        price: 140,
-        tags: "Veg",
-        category: "Veg",
-        veg: true
-      },
-      {
-        id: "r2m5",
-        name: "Fruit Salad with Ice Cream",
-        price: 150,
-        tags: "Dessert • Ice Cream",
-        category: "Dessert",
-        veg: true
-      }
-    ]
-  },
-  {
-    id: "r3",
-    name: "Shoel Biriyani",
-    cuisine: "Arabian",
-    rating: 4.5,
-    deliveryTime: 32,
-    distance: "3.5 km",
-    emoji: "🍗",
-    image:
-      "https://images.pexels.com/photos/11232406/pexels-photo-11232406.jpeg?auto=compress&cs=tinysrgb&w=400",
-    menu: [
-      {
-        id: "r3m1",
-        name: "Chicken Majboos Biryani",
-        price: 280,
-        tags: "Arabian • Non-Veg",
-        category: "Biryani",
-        veg: false
-      },
-      {
-        id: "r3m2",
-        name: "Shoel Special Mandi (Half)",
-        price: 420,
-        tags: "Mandi • Non-Veg",
-        category: "Mandi",
-        veg: false
-      },
-      {
-        id: "r3m3",
-        name: "Shoel Family Mandi (4 pax)",
-        price: 980,
-        tags: "Family Pack • Mandi",
-        category: "Mandi",
-        veg: false
-      },
-      {
-        id: "r3m4",
-        name: "Grill Chicken (Half)",
-        price: 260,
-        tags: "Non-Veg",
-        category: "Non-Veg",
-        veg: false
-      },
-      {
-        id: "r3m5",
-        name: "Kunafa Slice",
-        price: 180,
-        tags: "Dessert",
-        category: "Dessert",
-        veg: true
-      }
-    ]
-  },
-  {
-    id: "r4",
-    name: "Adhil Mandi House",
-    cuisine: "Arabian",
-    rating: 4.3,
-    deliveryTime: 35,
-    distance: "4.0 km",
-    emoji: "🥘",
-    image:
-      "https://images.pexels.com/photos/1395316/pexels-photo-1395316.jpeg?auto=compress&cs=tinysrgb&w=400",
-    menu: [
-      {
-        id: "r4m1",
-        name: "Chicken Mandi (Single)",
-        price: 260,
-        tags: "Mandi • Non-Veg",
-        category: "Mandi",
-        veg: false
-      },
-      {
-        id: "r4m2",
-        name: "Adhil Special Family Mandi",
-        price: 1050,
-        tags: "Family Pack • Non-Veg",
-        category: "Mandi",
-        veg: false
-      },
-      {
-        id: "r4m3",
-        name: "Fish Fry with Rice",
-        price: 280,
-        tags: "Sea Food • Non-Veg",
-        category: "Non-Veg",
-        veg: false
-      },
-      {
-        id: "r4m4",
-        name: "Mint Lemon Cooler",
-        price: 90,
-        tags: "Beverage",
-        category: "Beverage",
-        veg: true
-      }
-    ]
-  },
-  {
-    id: "r5",
-    name: "Flash Foods",
-    cuisine: "Fast Food",
-    rating: 4.2,
-    deliveryTime: 22,
-    distance: "1.9 km",
-    emoji: "🍔",
-    image:
-      "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=400",
-    menu: [
-      {
-        id: "r5m1",
-        name: "Classic Veg Burger",
-        price: 120,
-        tags: "Veg • Cheese",
-        category: "Burger",
-        veg: true
-      },
-      {
-        id: "r5m2",
-        name: "Chicken Crispy Burger",
-        price: 150,
-        tags: "Non-Veg",
-        category: "Burger",
-        veg: false
-      },
-      {
-        id: "r5m3",
-        name: "Peri Peri Fries",
-        price: 110,
-        tags: "Veg",
-        category: "Veg",
-        veg: true
-      },
-      {
-        id: "r5m4",
-        name: "Cheese Burst Pizza (7\")",
-        price: 260,
-        tags: "Veg • Cheese",
-        category: "Pizza",
-        veg: true
-      },
-      {
-        id: "r5m5",
-        name: "Cold Coffee",
-        price: 110,
-        tags: "Beverage",
-        category: "Beverage",
-        veg: true
-      },
-      {
-        id: "r5m6",
-        name: "Brownie with Ice Cream",
-        price: 150,
-        tags: "Dessert • Ice Cream",
-        category: "Ice Cream",
-        veg: true
-      }
-    ]
-  },
-  {
-    id: "r6",
-    name: "Bhimishetty’s Ruchulu",
-    cuisine: "Indian",
-    rating: 4.5,
-    deliveryTime: 27,
-    distance: "2.7 km",
-    emoji: "🥗",
-    image:
-      "https://images.pexels.com/photos/3214161/pexels-photo-3214161.jpeg?auto=compress&cs=tinysrgb&w=400",
-    menu: [
-      {
-        id: "r6m1",
-        name: "Veg Meals",
-        price: 160,
-        tags: "Veg • Homely",
-        category: "Veg",
-        veg: true
-      },
-      {
-        id: "r6m2",
-        name: "Gongura Chicken with Rice",
-        price: 230,
-        tags: "Spicy • Non-Veg",
-        category: "Non-Veg",
-        veg: false
-      },
-      {
-        id: "r6m3",
-        name: "Veg Fried Rice",
-        price: 170,
-        tags: "Veg",
-        category: "Fried Rice",
-        veg: true
-      },
-      {
-        id: "r6m4",
-        name: "Buttermilk",
-        price: 50,
-        tags: "Beverage",
-        category: "Beverage",
-        veg: true
-      },
-      {
-        id: "r6m5",
-        name: "Vanilla Ice Cream",
-        price: 80,
-        tags: "Ice Cream",
-        category: "Ice Cream",
-        veg: true
-      }
-    ]
-  }
-];
-
+// Global data
+let restaurantsData = [];
 let cart = [];
 let orders = [];
+let currentCuisine = "all";
+let currentType = "all";
+let currentSearchTerm = "";
+
+// -------------- BACKEND FUNCTIONS ------------
+async function loadRestaurantsFromServer() {
+  try {
+    const res = await fetch(`${API_BASE}/api/restaurants`);
+    if (!res.ok) throw new Error('API error');
+    restaurantsData = await res.json();
+    
+    // Transform backend data to match frontend format
+    restaurantsData = restaurantsData.map(r => ({
+      id: r._id,
+      name: r.name,
+      cuisine: r.cuisine,
+      rating: r.rating,
+      time: r.time,
+      image: r.image || 'https://images.pexels.com/photos/11170284/pexels-photo-11170284.jpeg',
+      emoji: r.emoji || '🍛',
+      menu: r.menu.map((item, index) => ({
+        id: `${r._id}-m${index}`,
+        name: item.name,
+        desc: item.desc || '',
+        price: item.price,
+        veg: item.veg || false,
+        rating: item.rating || 4.5,
+        category: item.category || 'Main Course',
+        tags: item.veg ? 'Veg' : 'Non-Veg'
+      }))
+    }));
+    
+    updateRestaurantView();
+    console.log('✅ Restaurants loaded from backend:', restaurantsData.length);
+  } catch (err) {
+    console.error("Failed to load restaurants:", err);
+    // Fallback to demo data if backend fails
+    loadDemoData();
+  }
+}
+
+async function loadOrdersFromServer() {
+  try {
+    const res = await fetch(`${API_BASE}/api/orders`);
+    orders = await res.json();
+    renderOrders();
+  } catch (err) {
+    console.error("Failed to load orders:", err);
+    orders = [];
+  }
+}
+
+// Fallback demo data (if backend fails)
+function loadDemoData() {
+  restaurantsData = [
+    {
+      id: "r1", name: "Reddys Kitchen", cuisine: "Indian", rating: 4.6, time: "30 mins",
+      image: "https://images.pexels.com/photos/11170284/pexels-photo-11170284.jpeg",
+      menu: [{id: "r1m1", name: "Chicken Biryani", price: 240, veg: false, category: "Biryani", tags: "Non-Veg"}]
+    },
+    {
+      id: "r2", name: "Shoel Biriyani", cuisine: "Arabian", rating: 4.5, time: "32 mins", 
+      image: "https://images.pexels.com/photos/11232406/pexels-photo-11232406.jpeg",
+      menu: [{id: "r2m1", name: "Mandi Special", price: 420, veg: false, category: "Mandi", tags: "Non-Veg"}]
+    }
+  ];
+  updateRestaurantView();
+}
 
 // =======================================================
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  // DOM elements
   const views = document.querySelectorAll(".view");
   const navLinks = document.querySelectorAll(".nav-link");
   const goRestaurantsButtons = document.querySelectorAll(".go-restaurants");
@@ -345,47 +84,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const restaurantListEl = document.getElementById("restaurant-list");
   const searchInput = document.getElementById("search-input");
   const searchBtn = document.getElementById("search-btn");
-
   const cartEmptyEl = document.getElementById("cart-empty");
   const cartContentEl = document.getElementById("cart-content");
   const cartItemsEl = document.getElementById("cart-items");
   const cartSubtotalEl = document.getElementById("cart-subtotal");
   const cartDeliveryEl = document.getElementById("cart-delivery");
   const cartTotalEl = document.getElementById("cart-total");
-
   const checkoutForm = document.getElementById("checkout-form");
-
   const ordersEmptyEl = document.getElementById("orders-empty");
   const ordersListEl = document.getElementById("orders-list");
-
   const yearEl = document.getElementById("year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Flatten dishes for home page
+  function getAllDishes() {
+    return restaurantsData.flatMap((r) =>
+      r.menu.map((item) => ({
+        ...item,
+        restaurantId: r.id,
+        restaurantName: r.name,
+        rating: r.rating
+      }))
+    );
   }
-
-  // Filter state
-  let currentCuisine = "all";
-  let currentType = "all";
-  let currentSearchTerm = "";
-
-  // Flatten dishes (for home page rows)
-  const allDishes = restaurantsData.flatMap((r) =>
-    r.menu.map((item) => ({
-      ...item,
-      restaurantId: r.id,
-      restaurantName: r.name,
-      rating: r.rating
-    }))
-  );
 
   // -------------- NAVIGATION -----------------
   function showView(id) {
-    views.forEach((v) => {
-      v.classList.toggle("active", v.id === id);
-    });
-    navLinks.forEach((link) => {
-      link.classList.toggle("active", link.dataset.target === id);
-    });
+    views.forEach((v) => v.classList.toggle("active", v.id === id));
+    navLinks.forEach((link) => link.classList.toggle("active", link.dataset.target === id));
   }
 
   navLinks.forEach((link) => {
@@ -408,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Big category cards on home
   mainCategoryCards.forEach((card) => {
     card.addEventListener("click", () => {
       const type = card.dataset.jumpType;
@@ -422,269 +148,141 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function updateFilterTypeButtons(type) {
-    const typeButtons = document.querySelectorAll(".filter-type-btn");
-    typeButtons.forEach((b) => {
+    document.querySelectorAll(".filter-type-btn").forEach((b) => {
       b.classList.toggle("active", b.dataset.type === type);
-      if (type === "all" && b.dataset.type === "all") {
-        b.classList.add("active");
-      }
-      if (!type) b.classList.remove("active");
     });
   }
 
   // -------------- RESTAURANTS LIST -------------
-
   function createRestaurantCard(restaurant) {
-    const card = document.createElement("article");
-    card.className = "restaurant-card";
-
     let visibleMenu = restaurant.menu;
-
     if (currentType !== "all") {
       visibleMenu = restaurant.menu.filter((item) => {
         if (currentType === "Veg") return item.veg === true;
         if (currentType === "Non-Veg") return item.veg === false;
         return item.category === currentType;
       });
-      if (visibleMenu.length === 0) visibleMenu = restaurant.menu;
+      if (visibleMenu.length === 0) visibleMenu = restaurant.menu.slice(0, 3);
     }
 
-    card.innerHTML = `
-      <div class="restaurant-header">
-        <div class="restaurant-image-wrapper">
-          <div class="restaurant-image" style="background-image:url('${restaurant.image}')"></div>
-          <span class="restaurant-tag">${restaurant.emoji || ""}</span>
-        </div>
-        <div class="restaurant-main">
-          <h3>${restaurant.name}</h3>
-          <div class="restaurant-meta">
-            <span class="restaurant-pill">${restaurant.cuisine}</span>
-            <span class="restaurant-pill restaurant-rating">★ ${restaurant.rating}</span>
-            ${
-              restaurant.deliveryTime
-                ? `<span class="restaurant-pill">${restaurant.deliveryTime} mins</span>`
-                : ""
-            }
-            ${
-              restaurant.distance
-                ? `<span class="restaurant-pill">${restaurant.distance}</span>`
-                : ""
-            }
+    return `
+      <article class="restaurant-card">
+        <div class="restaurant-header">
+          <div class="restaurant-image-wrapper">
+            <div class="restaurant-image" style="background-image:url('${restaurant.image}')"></div>
+            <span class="restaurant-tag">${restaurant.emoji || "🍛"}</span>
           </div>
-        </div>
-      </div>
-      <div class="menu">
-        ${visibleMenu
-          .map(
-            (item) => `
-          <div class="menu-item">
-            <div class="menu-info">
-              <span class="menu-name">${item.name}</span>
-              <span class="menu-meta">${item.tags || ""}</span>
-            </div>
-            <div class="menu-actions">
-              <span class="menu-price">₹${item.price}</span>
-              <button class="menu-add-btn"
-                data-add-to-cart="true"
-                data-restaurant-id="${restaurant.id}"
-                data-item-id="${item.id}">
-                Add
-              </button>
+          <div class="restaurant-main">
+            <h3>${restaurant.name}</h3>
+            <div class="restaurant-meta">
+              <span class="restaurant-pill">${restaurant.cuisine}</span>
+              <span class="restaurant-pill restaurant-rating">★ ${restaurant.rating}</span>
+              <span class="restaurant-pill">${restaurant.time || '30 mins'}</span>
             </div>
           </div>
-        `
-          )
-          .join("")}
-      </div>
+        </div>
+        <div class="menu">
+          ${visibleMenu.slice(0, 3).map((item) => `
+            <div class="menu-item">
+              <div class="menu-info">
+                <span class="menu-name">${item.name}</span>
+                <span class="menu-meta">${item.tags || ''}</span>
+              </div>
+              <div class="menu-actions">
+                <span class="menu-price">₹${item.price}</span>
+                <button class="menu-add-btn" data-add-to-cart="true" 
+                  data-restaurant-id="${restaurant.id}" data-item-id="${item.id}">
+                  Add
+                </button>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </article>
     `;
-    return card;
   }
 
   function renderRestaurants(data) {
-    restaurantListEl.innerHTML = "";
-    if (!data.length) {
-      restaurantListEl.innerHTML =
-        '<div class="empty-state">No restaurants found. Try another filter.</div>';
-      return;
-    }
-    data.forEach((restaurant) => {
-      restaurantListEl.appendChild(createRestaurantCard(restaurant));
-    });
+    restaurantListEl.innerHTML = data.length 
+      ? data.map(createRestaurantCard).join('') 
+      : '<div class="empty-state">No restaurants found. Try another filter.</div>';
   }
 
   function updateRestaurantView() {
     let data = restaurantsData.filter((r) => {
       if (currentCuisine !== "all" && r.cuisine !== currentCuisine) return false;
-
       if (currentSearchTerm) {
-        const term = currentSearchTerm;
-        const inName = r.name.toLowerCase().includes(term);
-        const inCuisine = r.cuisine.toLowerCase().includes(term);
-        const inMenu = r.menu.some(
-          (m) =>
-            m.name.toLowerCase().includes(term) ||
-            (m.category && m.category.toLowerCase().includes(term))
-        );
-        if (!inName && !inCuisine && !inMenu) return false;
+        const term = currentSearchTerm.toLowerCase();
+        return r.name.toLowerCase().includes(term) || 
+               r.cuisine.toLowerCase().includes(term) || 
+               r.menu.some(m => m.name.toLowerCase().includes(term));
       }
-
       if (currentType !== "all") {
-        if (currentType === "Veg") {
-          return r.menu.some((m) => m.veg === true);
-        }
-        if (currentType === "Non-Veg") {
-          return r.menu.some((m) => m.veg === false);
-        }
-        return r.menu.some((m) => m.category === currentType);
+        return r.menu.some((m) => {
+          if (currentType === "Veg") return m.veg === true;
+          if (currentType === "Non-Veg") return m.veg === false;
+          return m.category === currentType;
+        });
       }
-
       return true;
     });
-
     renderRestaurants(data);
   }
 
-  // Initial render
-  updateRestaurantView();
+  // Initial restaurant load
+  await loadRestaurantsFromServer();
 
-  // Cuisine filter
-  const filterButtons = document.querySelectorAll(".filter-btn");
-  filterButtons.forEach((btn) => {
+  // Filters
+  document.querySelectorAll(".filter-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const cuisine = btn.dataset.cuisine;
-      filterButtons.forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      currentCuisine = cuisine || "all";
+      currentCuisine = btn.dataset.cuisine || "all";
       updateRestaurantView();
     });
   });
 
-  // Type filter buttons
-  const typeFilterButtons = document.querySelectorAll(".filter-type-btn");
-  typeFilterButtons.forEach((btn) => {
+  document.querySelectorAll(".filter-type-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const type = btn.dataset.type;
-      typeFilterButtons.forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".filter-type-btn").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      currentType = type || "all";
+      currentType = btn.dataset.type || "all";
       updateRestaurantView();
     });
   });
 
   // Search
-  function handleSearch() {
-    const term = searchInput.value.trim().toLowerCase();
-    currentSearchTerm = term;
+  searchBtn.addEventListener("click", () => {
+    currentSearchTerm = searchInput.value.trim();
     showView("restaurants");
     updateRestaurantView();
-  }
-
-  searchBtn.addEventListener("click", handleSearch);
+  });
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSearch();
+      currentSearchTerm = searchInput.value.trim();
+      showView("restaurants");
+      updateRestaurantView();
     }
   });
 
-  // -------- HOME PAGE ROWS ----------
-  function renderHomeCategory(filterFn, containerId, limit = 12) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    const dishes = allDishes.filter(filterFn).slice(0, limit);
-
-    if (!dishes.length) {
-      container.innerHTML =
-        '<div class="empty-state small">No items yet in this category.</div>';
-      return;
-    }
-
-    container.innerHTML = dishes
-      .map(
-        (d) => `
-      <article class="dish-card">
-        <div class="dish-main">
-          <div class="dish-name">${d.name}</div>
-          <div class="dish-meta">${d.restaurantName} • ★ ${d.rating}</div>
-          <div class="dish-tags">${d.tags}</div>
-        </div>
-        <div class="dish-side">
-          <div class="dish-price">₹${d.price}</div>
-          <button class="dish-add-btn"
-            data-add-to-cart="true"
-            data-restaurant-id="${d.restaurantId}"
-            data-item-id="${d.id}">
-            Add
-          </button>
-        </div>
-      </article>
-    `
-      )
-      .join("");
-  }
-
-  renderHomeCategory((d) => d.category === "Biryani", "home-biryani-list");
-  renderHomeCategory((d) => d.category === "Mandi", "home-mandi-list");
-  renderHomeCategory(
-    (d) => d.category === "Pizza" || d.category === "Burger" || d.category === "Veg",
-    "home-fastfood-list"
-  );
-  renderHomeCategory(
-    (d) =>
-      d.category === "Dessert" ||
-      d.category === "Ice Cream" ||
-      d.category === "Beverage",
-    "home-dessert-list"
-  );
-
   // -------------- CART LOGIC ------------------
-
   function addToCart(restaurantId, itemId) {
     const restaurant = restaurantsData.find((r) => r.id === restaurantId);
-    if (!restaurant) return;
-
-    const item = restaurant.menu.find((m) => m.id === itemId);
+    const item = restaurant?.menu.find((m) => m.id === itemId);
     if (!item) return;
 
-    const existing = cart.find(
-      (c) => c.itemId === itemId && c.restaurantId === restaurantId
-    );
-
+    const existing = cart.find((c) => c.itemId === itemId && c.restaurantId === restaurantId);
     if (existing) {
       existing.qty += 1;
     } else {
       cart.push({
-        restaurantId,
-        restaurantName: restaurant.name,
-        itemId: item.id,
-        name: item.name,
-        price: item.price,
-        qty: 1
+        restaurantId, restaurantName: restaurant.name,
+        itemId: item.id, name: item.name, price: item.price, qty: 1
       });
     }
-
     renderCart();
-  }
-
-  function updateCartItem(itemId, restaurantId, delta) {
-    const row = cart.find(
-      (c) => c.itemId === itemId && c.restaurantId === restaurantId
-    );
-    if (!row) return;
-    row.qty += delta;
-    if (row.qty <= 0) {
-      cart = cart.filter(
-        (c) => !(c.itemId === itemId && c.restaurantId === restaurantId)
-      );
-    }
-    renderCart();
-  }
-
-  function removeCartItem(itemId, restaurantId) {
-    cart = cart.filter(
-      (c) => !(c.itemId === itemId && c.restaurantId === restaurantId)
-    );
-    renderCart();
+    showView("cart");
   }
 
   function renderCart() {
@@ -697,51 +295,28 @@ document.addEventListener("DOMContentLoaded", () => {
     cartEmptyEl.classList.add("hidden");
     cartContentEl.classList.remove("hidden");
 
-    cartItemsEl.innerHTML = "";
-    let subtotal = 0;
-
-    cart.forEach((row) => {
+    cartItemsEl.innerHTML = cart.map((row) => {
       const itemTotal = row.qty * row.price;
-      subtotal += itemTotal;
-
-      const el = document.createElement("div");
-      el.className = "cart-item";
-      el.innerHTML = `
-        <div class="cart-item-main">
-          <span class="cart-item-name">${row.name}</span>
-          <span class="cart-item-restaurant">${row.restaurantName}</span>
-        </div>
-        <div class="cart-controls">
-          <div class="cart-qty">
-            <button
-              type="button"
-              data-cart-minus="true"
-              data-restaurant-id="${row.restaurantId}"
-              data-item-id="${row.itemId}"
-            >-</button>
-            <span>${row.qty}</span>
-            <button
-              type="button"
-              data-cart-plus="true"
-              data-restaurant-id="${row.restaurantId}"
-              data-item-id="${row.itemId}"
-            >+</button>
+      return `
+        <div class="cart-item">
+          <div class="cart-item-main">
+            <span class="cart-item-name">${row.name}</span>
+            <span class="cart-item-restaurant">${row.restaurantName}</span>
           </div>
-          <span class="cart-price">₹${itemTotal}</span>
-          <button
-            type="button"
-            class="cart-remove"
-            data-cart-remove="true"
-            data-restaurant-id="${row.restaurantId}"
-            data-item-id="${row.itemId}"
-          >
-            Remove
-          </button>
+          <div class="cart-controls">
+            <div class="cart-qty">
+              <button data-cart-minus="true" data-restaurant-id="${row.restaurantId}" data-item-id="${row.itemId}">-</button>
+              <span>${row.qty}</span>
+              <button data-cart-plus="true" data-restaurant-id="${row.restaurantId}" data-item-id="${row.itemId}">+</button>
+            </div>
+            <span class="cart-price">₹${itemTotal}</span>
+            <button class="cart-remove" data-cart-remove="true" data-restaurant-id="${row.restaurantId}" data-item-id="${row.itemId}">Remove</button>
+          </div>
         </div>
       `;
-      cartItemsEl.appendChild(el);
-    });
+    }).join("");
 
+    const subtotal = cart.reduce((sum, row) => sum + (row.qty * row.price), 0);
     const delivery = subtotal > 0 ? 40 : 0;
     const total = subtotal + delivery;
 
@@ -750,56 +325,42 @@ document.addEventListener("DOMContentLoaded", () => {
     cartTotalEl.textContent = `₹${total}`;
   }
 
-  // Event delegation for Add / + / - / Remove
+  // Cart event handlers
   document.addEventListener("click", (e) => {
     const addBtn = e.target.closest("[data-add-to-cart]");
     if (addBtn) {
-      const restaurantId = addBtn.dataset.restaurantId;
-      const itemId = addBtn.dataset.itemId;
-      addToCart(restaurantId, itemId);
-      showView("cart");
+      addToCart(addBtn.dataset.restaurantId, addBtn.dataset.itemId);
       return;
     }
 
     const plusBtn = e.target.closest("[data-cart-plus]");
     if (plusBtn) {
-      const restaurantId = plusBtn.dataset.restaurantId;
-      const itemId = plusBtn.dataset.itemId;
-      updateCartItem(itemId, restaurantId, 1);
+      const row = cart.find(c => c.itemId === plusBtn.dataset.itemId && c.restaurantId === plusBtn.dataset.restaurantId);
+      if (row) row.qty += 1;
+      renderCart();
       return;
     }
 
     const minusBtn = e.target.closest("[data-cart-minus]");
     if (minusBtn) {
-      const restaurantId = minusBtn.dataset.restaurantId;
-      const itemId = minusBtn.dataset.itemId;
-      updateCartItem(itemId, restaurantId, -1);
+      const row = cart.find(c => c.itemId === minusBtn.dataset.itemId && c.restaurantId === minusBtn.dataset.restaurantId);
+      if (row) {
+        row.qty -= 1;
+        if (row.qty <= 0) cart = cart.filter(c => !(c.itemId === row.itemId && c.restaurantId === row.restaurantId));
+      }
+      renderCart();
       return;
     }
 
     const removeBtn = e.target.closest("[data-cart-remove]");
     if (removeBtn) {
-      const restaurantId = removeBtn.dataset.restaurantId;
-      const itemId = removeBtn.dataset.itemId;
-      removeCartItem(itemId, restaurantId);
+      cart = cart.filter(c => !(c.itemId === removeBtn.dataset.itemId && c.restaurantId === removeBtn.dataset.restaurantId));
+      renderCart();
       return;
     }
   });
 
   // -------------- ORDERS (BACKEND) ------------
-
-  async function loadOrdersFromServer() {
-    try {
-      const res = await fetch(`${API_BASE}/api/orders`);
-      const data = await res.json();
-      orders = data; // mongo orders array
-      renderOrders();
-    } catch (err) {
-      console.error("Failed to load orders:", err);
-    }
-  }
-
-  // Checkout – now sends POST to backend
   checkoutForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (cart.length === 0) {
@@ -808,23 +369,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formData = new FormData(checkoutForm);
-    const name = formData.get("name");
-    const phone = formData.get("phone");
-    const address = formData.get("address");
-    const payment = formData.get("payment");
-
-    let subtotal = 0;
-    cart.forEach((row) => {
-      subtotal += row.qty * row.price;
-    });
-    const delivery = subtotal > 0 ? 40 : 0;
+    const subtotal = cart.reduce((sum, row) => sum + (row.qty * row.price), 0);
+    const delivery = 40;
     const total = subtotal + delivery;
 
     const payload = {
-      customerName: name,
-      phone,
-      address,
-      payment,
+      customerName: formData.get("name"),
+      phone: formData.get("phone"),
+      address: formData.get("address"),
+      payment: formData.get("payment"),
       total,
       items: cart.map((c) => ({
         restaurantName: c.restaurantName,
@@ -841,20 +394,16 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify(payload)
       });
 
-      if (!res.ok) {
-        throw new Error("Order API error");
-      }
-
-      // order created in Mongo
-      await loadOrdersFromServer(); // refresh list from backend
+      if (!res.ok) throw new Error("Order failed");
 
       cart = [];
-      renderCart();
       checkoutForm.reset();
-      alert("Order placed successfully!");
+      renderCart();
+      await loadOrdersFromServer();
+      alert("✅ Order placed successfully!");
       showView("orders");
     } catch (err) {
-      console.error("Failed to place order:", err);
+      console.error("Order error:", err);
       alert("Failed to place order. Please try again.");
     }
   });
@@ -867,50 +416,63 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     ordersEmptyEl.classList.add("hidden");
-    ordersListEl.innerHTML = "";
-
-    orders.forEach((order) => {
-      const card = document.createElement("article");
-      card.className = "order-card";
-
-      const created =
-        order.createdAt || order.placedAt || new Date().toISOString();
-      const placedAt = new Date(created).toLocaleString();
-
-      card.innerHTML = `
-        <div class="order-header">
-          <div>
-            <div class="order-id">Order #${order._id || order.id}</div>
-            <div class="order-meta">${placedAt}</div>
+    ordersListEl.innerHTML = orders.map((order) => {
+      const placedAt = new Date(order.createdAt || order.placedAt).toLocaleString();
+      return `
+        <article class="order-card">
+          <div class="order-header">
+            <div>
+              <div class="order-id">Order #${order._id?.slice(-6) || 'N/A'}</div>
+              <div class="order-meta">${placedAt}</div>
+            </div>
+            <div class="order-total">₹${order.total}</div>
           </div>
-          <div class="order-total">₹${order.total}</div>
-        </div>
-        <div class="order-meta">
-          ${order.customerName} • ${order.phone}<br/>
-          ${order.address}<br/>
-          Payment: ${order.payment}
-        </div>
-        <div class="order-items">
-          <strong>Items:</strong>
-          <ul>
-            ${
-              order.items && order.items.length
-                ? order.items
-                    .map(
-                      (item) =>
-                        `<li>${item.qty} × ${item.name} <span style="color:#9ca3af;">(${item.restaurantName || item.from})</span></li>`
-                    )
-                    .join("")
-                : "<li>No items</li>"
-            }
-          </ul>
-        </div>
+          <div class="order-meta">${order.customerName} • ${order.phone}</div>
+          <div class="order-items">
+            <strong>Items:</strong>
+            <ul>${order.items?.map(item => `<li>${item.qty} × ${item.name} (${item.restaurantName})</li>`).join("") || '<li>No items</li>'}</ul>
+          </div>
+        </article>
       `;
-      ordersListEl.appendChild(card);
-    });
+    }).join("");
   }
 
-  // Initial
+  // Home page category rows (using backend data)
+  function renderHomeCategory(filterFn, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container || !restaurantsData.length) return;
+
+    const dishes = getAllDishes().filter(filterFn).slice(0, 6);
+    if (!dishes.length) {
+      container.innerHTML = '<div class="empty-state small">Loading...</div>';
+      return;
+    }
+
+    container.innerHTML = dishes.map((d) => `
+      <article class="dish-card">
+        <div class="dish-main">
+          <div class="dish-name">${d.name}</div>
+          <div class="dish-meta">${d.restaurantName} • ★ ${d.rating}</div>
+          <div class="dish-tags">${d.tags}</div>
+        </div>
+        <div class="dish-side">
+          <div class="dish-price">₹${d.price}</div>
+          <button class="dish-add-btn" data-add-to-cart="true" 
+            data-restaurant-id="${d.restaurantId}" data-item-id="${d.id}">Add</button>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  // Initial render
   renderCart();
-  loadOrdersFromServer(); // load existing orders from backend on page open
+  await loadOrdersFromServer();
+
+  // Home page categories (after restaurants load)
+  setTimeout(() => {
+    renderHomeCategory((d) => d.category === "Biryani", "home-biryani-list");
+    renderHomeCategory((d) => d.category === "Mandi", "home-mandi-list");
+    renderHomeCategory((d) => ["Pizza", "Burger", "Veg"].includes(d.category), "home-fastfood-list");
+    renderHomeCategory((d) => ["Dessert", "Beverage"].includes(d.category), "home-dessert-list");
+  }, 500);
 });
