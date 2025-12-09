@@ -9,21 +9,17 @@ const app = express();
 // ✅ use Render's PORT if it exists, otherwise 5000 for local
 const PORT = process.env.PORT || 5000;
 
-// ---------- MIDDLEWARE ----------
-app.use(cors());
-app.use(bodyParser.json());
-
-// ---------- MONGODB CONNECT ----------
-// ✅ use MONGODB_URI (for Render) or fall back to local MongoDB (for your laptop)
-const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/foodapp";
+const MONGO_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/foodapp";
 
 mongoose
-  .connect(mongoUri)
+  .connect(MONGO_URI)
   .then(() => {
-    console.log("✅ MongoDB connected successfully!");
+    console.log("MongoDB connected successfully!");
     seedRestaurants();
   })
-  .catch((err) => console.error("MongoDB error:", err));
+  .catch((err) => console.error("MongoDB Error:", err));
+
 
 
 // ---------- SCHEMAS & MODELS ----------
