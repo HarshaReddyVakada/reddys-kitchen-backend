@@ -13,13 +13,15 @@ app.use(cors());               // allow frontend (browser) to call this API
 app.use(bodyParser.json());    // parse JSON bodies
 
 // ---------- MONGODB CONNECT ----------
-mongoose
-  .connect("mongodb://127.0.0.1:27017/foodapp") // local MongoDB
+const MONGO_URI = process.env.MONGODB_URI;
+
+mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log("✅ MongoDB connected successfully!");
-    seedRestaurants();        // insert sample restaurants if needed
+    console.log("MongoDB connected successfully!");
+    seedRestaurants();
   })
-  .catch((err) => console.error("MongoDB error:", err));
+  .catch(err => console.error("MongoDB Error:", err));
+
 
 // ---------- SCHEMAS & MODELS ----------
 
