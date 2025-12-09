@@ -1,4 +1,8 @@
+// ====================== CONFIG ==========================
+const API_BASE = "https://reddys-kitchen-backend.onrender.com";
+
 // Restaurants + menu data with categories & veg/non-veg
+// (still local for now; backend also has some restaurants)
 const restaurantsData = [
   {
     id: "r1",
@@ -331,6 +335,8 @@ const restaurantsData = [
 let cart = [];
 let orders = [];
 
+// =======================================================
+
 document.addEventListener("DOMContentLoaded", () => {
   const views = document.querySelectorAll(".view");
   const navLinks = document.querySelectorAll(".nav-link");
@@ -372,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }))
   );
 
-  // Navigation
+  // -------------- NAVIGATION -----------------
   function showView(id) {
     views.forEach((v) => {
       v.classList.toggle("active", v.id === id);
@@ -426,7 +432,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Restaurant cards (respect currentType filter for visible dishes)
+  // -------------- RESTAURANTS LIST -------------
+
   function createRestaurantCard(restaurant) {
     const card = document.createElement("article");
     card.className = "restaurant-card";
@@ -446,15 +453,23 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="restaurant-header">
         <div class="restaurant-image-wrapper">
           <div class="restaurant-image" style="background-image:url('${restaurant.image}')"></div>
-          <span class="restaurant-tag">${restaurant.emoji}</span>
+          <span class="restaurant-tag">${restaurant.emoji || ""}</span>
         </div>
         <div class="restaurant-main">
           <h3>${restaurant.name}</h3>
           <div class="restaurant-meta">
             <span class="restaurant-pill">${restaurant.cuisine}</span>
             <span class="restaurant-pill restaurant-rating">★ ${restaurant.rating}</span>
-            <span class="restaurant-pill">${restaurant.deliveryTime} mins</span>
-            <span class="restaurant-pill">${restaurant.distance}</span>
+            ${
+              restaurant.deliveryTime
+                ? `<span class="restaurant-pill">${restaurant.deliveryTime} mins</span>`
+                : ""
+            }
+            ${
+              restaurant.distance
+                ? `<span class="restaurant-pill">${restaurant.distance}</span>`
+                : ""
+            }
           </div>
         </div>
       </div>
@@ -465,7 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="menu-item">
             <div class="menu-info">
               <span class="menu-name">${item.name}</span>
-              <span class="menu-meta">${item.tags}</span>
+              <span class="menu-meta">${item.tags || ""}</span>
             </div>
             <div class="menu-actions">
               <span class="menu-price">₹${item.price}</span>
@@ -499,10 +514,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateRestaurantView() {
     let data = restaurantsData.filter((r) => {
-      // cuisine filter
       if (currentCuisine !== "all" && r.cuisine !== currentCuisine) return false;
 
-      // search
       if (currentSearchTerm) {
         const term = currentSearchTerm;
         const inName = r.name.toLowerCase().includes(term);
@@ -515,7 +528,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!inName && !inCuisine && !inMenu) return false;
       }
 
-      // type filter: restaurant must have at least one matching item
       if (currentType !== "all") {
         if (currentType === "Veg") {
           return r.menu.some((m) => m.veg === true);
@@ -575,7 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Home page category rows
+  // -------- HOME PAGE ROWS ----------
   function renderHomeCategory(filterFn, containerId, limit = 12) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -611,7 +623,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .join("");
   }
 
-  // Render all home rows
   renderHomeCategory((d) => d.category === "Biryani", "home-biryani-list");
   renderHomeCategory((d) => d.category === "Mandi", "home-mandi-list");
   renderHomeCategory(
@@ -619,11 +630,15 @@ document.addEventListener("DOMContentLoaded", () => {
     "home-fastfood-list"
   );
   renderHomeCategory(
-    (d) => d.category === "Dessert" || d.category === "Ice Cream" || d.category === "Beverage",
+    (d) =>
+      d.category === "Dessert" ||
+      d.category === "Ice Cream" ||
+      d.category === "Beverage",
     "home-dessert-list"
   );
 
-  // Cart logic
+  // -------------- CART LOGIC ------------------
+
   function addToCart(restaurantId, itemId) {
     const restaurant = restaurantsData.find((r) => r.id === restaurantId);
     if (!restaurant) return;
@@ -771,8 +786,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Checkout
-  checkoutForm.addEventListener("submit", (e) => {
+  // -------------- ORDERS (BACKEND) ------------
+
+  async function loadOrdersFromServer() {
+    try {
+      const res = await fetch(`${API_BASE}/api/orders`);
+      const data = await res.json();
+      orders = data; // mongo orders array
+      renderOrders();
+    } catch (err) {
+      console.error("Failed to load orders:", err);
+    }
+  }
+
+  // Checkout – now sends POST to backend
+  checkoutForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (cart.length === 0) {
       alert("Your cart is empty.");
@@ -792,32 +820,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const delivery = subtotal > 0 ? 40 : 0;
     const total = subtotal + delivery;
 
-    const order = {
-      id: Date.now(),
+    const payload = {
       customerName: name,
       phone,
       address,
       payment,
       total,
-      placedAt: new Date().toLocaleString(),
       items: cart.map((c) => ({
+        restaurantName: c.restaurantName,
         name: c.name,
         qty: c.qty,
-        from: c.restaurantName
+        price: c.price
       }))
     };
 
-    orders.unshift(order);
-    cart = [];
-    renderCart();
-    renderOrders();
-    checkoutForm.reset();
-    alert("Order placed successfully!");
-    showView("orders");
+    try {
+      const res = await fetch(`${API_BASE}/api/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        throw new Error("Order API error");
+      }
+
+      // order created in Mongo
+      await loadOrdersFromServer(); // refresh list from backend
+
+      cart = [];
+      renderCart();
+      checkoutForm.reset();
+      alert("Order placed successfully!");
+      showView("orders");
+    } catch (err) {
+      console.error("Failed to place order:", err);
+      alert("Failed to place order. Please try again.");
+    }
   });
 
   function renderOrders() {
-    if (orders.length === 0) {
+    if (!orders || orders.length === 0) {
       ordersEmptyEl.classList.remove("hidden");
       ordersListEl.innerHTML = "";
       return;
@@ -829,11 +872,16 @@ document.addEventListener("DOMContentLoaded", () => {
     orders.forEach((order) => {
       const card = document.createElement("article");
       card.className = "order-card";
+
+      const created =
+        order.createdAt || order.placedAt || new Date().toISOString();
+      const placedAt = new Date(created).toLocaleString();
+
       card.innerHTML = `
         <div class="order-header">
           <div>
-            <div class="order-id">Order #${order.id}</div>
-            <div class="order-meta">${order.placedAt}</div>
+            <div class="order-id">Order #${order._id || order.id}</div>
+            <div class="order-meta">${placedAt}</div>
           </div>
           <div class="order-total">₹${order.total}</div>
         </div>
@@ -845,12 +893,16 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="order-items">
           <strong>Items:</strong>
           <ul>
-            ${order.items
-              .map(
-                (item) =>
-                  `<li>${item.qty} × ${item.name} <span style="color:#9ca3af;">(${item.from})</span></li>`
-              )
-              .join("")}
+            ${
+              order.items && order.items.length
+                ? order.items
+                    .map(
+                      (item) =>
+                        `<li>${item.qty} × ${item.name} <span style="color:#9ca3af;">(${item.restaurantName || item.from})</span></li>`
+                    )
+                    .join("")
+                : "<li>No items</li>"
+            }
           </ul>
         </div>
       `;
@@ -860,5 +912,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial
   renderCart();
-  renderOrders();
+  loadOrdersFromServer(); // load existing orders from backend on page open
 });

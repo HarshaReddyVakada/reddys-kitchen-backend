@@ -1,204 +1,44 @@
-
-// server.js  (backend for Reddy's Kitchen)
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const fs = require("fs").promises;
+const path = require("path");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-// ---------- MIDDLEWARE ----------
-app.use(cors());               // allow frontend (browser) to call this API
-app.use(bodyParser.json());    // parse JSON bodies
+app.use(cors());
+app.use(express.json());
 
-// ---------- MONGODB CONNECT ----------
-const MONGO_URI = process.env.MONGODB_URI;
-
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully!");
-    seedRestaurants();
-  })
-  .catch(err => console.error("MongoDB Error:", err));
-
-
-// ---------- SCHEMAS & MODELS ----------
-
-// Simple menu item subdocument
-const menuItemSchema = new mongoose.Schema({
-  name: String,
-  desc: String,
-  price: Number,
-  veg: Boolean,
-  rating: Number,
-  category: String,
-  image: String,
-});
-
-// Restaurant
-const restaurantSchema = new mongoose.Schema({
-  name: String,
-  cuisine: String,
-  rating: Number,
-  time: String,
-  image: String,
-  menu: [menuItemSchema],
-});
-
-const Restaurant = mongoose.model("Restaurant", restaurantSchema);
-
-// Order
-const orderItemSchema = new mongoose.Schema({
-  restaurantName: String,
-  name: String,
-  qty: Number,
-  price: Number,
-});
-
-const orderSchema = new mongoose.Schema(
-  {
-    customerName: String,
-    phone: String,
-    address: String,
-    payment: String,
-    total: Number,
-    items: [orderItemSchema],
-  },
-  { timestamps: true }
-);
-
-const Order = mongoose.model("Order", orderSchema);
-
-// ---------- SEED SAMPLE RESTAURANTS ----------
-
-async function seedRestaurants() {
-  const count = await Restaurant.countDocuments();
-  if (count > 0) {
-    console.log("ℹ️ Restaurants already exist, skipping seed.");
-    return;
-  }
-
-  const sample = [
-    {
-      name: "NLR Specials",
-      cuisine: "Andhra",
-      rating: 4.6,
-      time: "30 mins",
-      image:
-        "https://images.pexels.com/photos/11170284/pexels-photo-11170284.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          name: "Nellore Chicken Dum Biryani",
-          desc: "Slow-cooked spicy dum biryani with raita & salan.",
-          price: 240,
-          veg: false,
-          rating: 4.7,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=800",
-        },
-        {
-          name: "Paneer Dum Biryani",
-          desc: "Fragrant basmati with marinated paneer cubes.",
-          price: 220,
-          veg: true,
-          rating: 4.4,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/10670776/pexels-photo-10670776.jpeg?auto=compress&cs=tinysrgb&w=800",
-        },
-      ],
-    },
-    {
-      name: "Shoel Biriyani",
-      cuisine: "Arabian",
-      rating: 4.5,
-      time: "32 mins",
-      image:
-        "https://images.pexels.com/photos/11232406/pexels-photo-11232406.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          name: "Shoel Special Mandi (Half)",
-          desc: "Half mandi platter with juicy chicken.",
-          price: 420,
-          veg: false,
-          rating: 4.7,
-          category: "Mandi",
-          image:
-            "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=800",
-        },
-      ],
-    },
-  ];
-
-  await Restaurant.insertMany(sample);
-  console.log("🌱 Seeded sample restaurants");
-}
-
-// ---------- ROUTES ----------
-
-// health check
 app.get("/", (req, res) => {
-  res.send("Reddy's Kitchen API is running.");
+  res.send("Reddy's Kitchen API is running!");
 });
 
-// Get all restaurants
+// Serve restaurants from JSON file
 app.get("/api/restaurants", async (req, res) => {
   try {
-    const restaurants = await Restaurant.find();
+    const filePath = path.join(__dirname, "restaurants.json");
+    const data = await fs.readFile(filePath, "utf8");
+    const restaurants = JSON.parse(data);
     res.json(restaurants);
   } catch (err) {
-    console.error("Error fetching restaurants:", err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error reading restaurants.json:", err);
+    res.status(500).json({ message: "Server error - check restaurants.json" });
   }
 });
 
-// Get one restaurant by id
 app.get("/api/restaurants/:id", async (req, res) => {
   try {
-    const rest = await Restaurant.findById(req.params.id);
-    if (!rest) return res.status(404).json({ message: "Restaurant not found" });
-    res.json(rest);
+    const filePath = path.join(__dirname, "restaurants.json");
+    const data = await fs.readFile(filePath, "utf8");
+    const restaurants = JSON.parse(data);
+    const restaurant = restaurants.find(r => r._id === req.params.id);
+    if (!restaurant) return res.status(404).json({ message: "Restaurant not found" });
+    res.json(restaurant);
   } catch (err) {
-    console.error("Error fetching restaurant:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// Create an order
-app.post("/api/orders", async (req, res) => {
-  try {
-    const data = req.body;
-
-    const order = await Order.create({
-      customerName: data.customerName,
-      phone: data.phone,
-      address: data.address,
-      payment: data.payment,
-      total: data.total,
-      items: data.items || [],
-    });
-
-    res.status(201).json(order);
-  } catch (err) {
-    console.error("Error creating order:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// Get all orders (latest first)
-app.get("/api/orders", async (req, res) => {
-  try {
-    const orders = await Order.find().sort({ createdAt: -1 });
-    res.json(orders);
-  } catch (err) {
-    console.error("Error fetching orders:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// ---------- START SERVER ----------
 app.listen(PORT, () => {
-  console.log(`🚀 Reddy's Kitchen API running on http://localhost:${PORT}`);
+  console.log(`🚀 API running on port ${PORT}`);
 });
