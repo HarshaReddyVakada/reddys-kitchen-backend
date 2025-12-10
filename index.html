@@ -533,32 +533,40 @@
     }
 
     /* FOOTER */
-    .app-footer{
-      position:fixed;
-      bottom:0;
-      left:0;
-      right:0;
-      height:36px;
-      padding:0 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      background:rgba(15,23,42,0.96);
-      border-top:1px solid rgba(30,64,175,0.5);
-      font-size:11px;
-      color:#9ca3af;
-      z-index:885;
-    }
-    .app-footer-right a{
-      color:#e5e7eb;
-      margin-left:10px;
-      font-size:14px;
-      text-decoration:none;
-      transition:color .2s ease;
-    }
-    .app-footer-right a:hover{
-      color:#f97316;
-    }
+   /* FOOTER */
+.app-footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:32px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;        /* center text */
+  background:rgba(15,23,42,0.96);
+  border-top:1px solid rgba(30,64,175,0.5);
+  font-size:11px;
+  color:#9ca3af;
+  z-index:850;                   /* below bottom-nav (880) */
+}
+
+.app-footer-right{
+  position:absolute;
+  right:16px;
+}
+
+.app-footer-right a{
+  color:#e5e7eb;
+  margin-left:10px;
+  font-size:14px;
+  text-decoration:none;
+  transition:color .2s ease;
+}
+.app-footer-right a:hover{
+  color:#f97316;
+}
+
 
     @media(max-width:900px){
       .restaurant-grid{
@@ -574,7 +582,13 @@
       .restaurant-item-img{
         width:40vw;
       }
-    }
+    }@media(max-width:768px){
+  .app-footer{
+    bottom:48px;   /* roughly the height of .bottom-nav */
+    height:28px;
+  }
+}
+
 
     @media(max-width:1024px){
       .sidebar{transform:translateX(-100%)}
@@ -990,21 +1004,31 @@
   function goBackFromCart(){
     showPage('restaurants');
   }
+document.getElementById('menu-toggle').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('active');
+});
 
-  document.getElementById('menu-toggle').addEventListener('click',()=>{
-    document.getElementById('sidebar').classList.toggle('active');
+document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(el=>{
+  el.addEventListener('click',()=>{
+    // change page
+    showPage(el.dataset.page);
+
+    // close sidebar on mobile/tablet if it is open
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 1024 && sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+    }
   });
-  document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(el=>{
-    el.addEventListener('click',()=>showPage(el.dataset.page));
-  });
-  document.getElementById('categories').addEventListener('click',e=>{
-    const btn = e.target.closest('.category');
-    if(!btn) return;
-    document.querySelector('.category.active').classList.remove('active');
-    btn.classList.add('active');
-    currentFilter = btn.dataset.category;
-    renderHome();
-  });
+});
+
+document.getElementById('categories').addEventListener('click',e=>{
+  const btn = e.target.closest('.category');
+  if(!btn) return;
+  document.querySelector('.category.active').classList.remove('active');
+  btn.classList.add('active');
+  currentFilter = btn.dataset.category;
+  renderHome();
+});
 
   function renderHome(){
     const allItems = restaurants.flatMap(r=>r.menu.map(m=>({...m,restaurantName:r.name,restaurantId:r.id})));
