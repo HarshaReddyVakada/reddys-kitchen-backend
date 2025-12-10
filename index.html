@@ -1,1768 +1,1429 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat+Alternates:wght@600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Flash Food Delivery - Srikakulam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8" />
-  <title>Reddy's Kitchen - Srikakulam</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Professional font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     :root {
-      --bg: #f5f5f7;
-      --bg-card: #ffffff;
-      --accent: #f97316;
-      --accent-soft: #fef3e7;
+      --primary: #f97316;
+      --primary-dark: #ea580c;
+      --accent: #0ea5e9;
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --surface: rgba(248,250,252,0.9);
+      --surface-dark: rgba(15,23,42,0.92);
       --text: #111827;
+      --text-soft: #e5e7eb;
       --muted: #6b7280;
-      --border: #e5e7eb;
+      --border: rgba(148,163,184,0.35);
       --radius-lg: 18px;
       --radius-md: 14px;
-      --shadow-soft: 0 14px 40px rgba(15, 23, 42, 0.12);
-      --transition-fast: 0.2s ease;
-      --max-width: 1120px;
-    }
-    .brand-orange {
-  color: #f97316;   /* your theme orange */
-  font-weight: 700;
-}
-
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      --shadow-soft: 0 18px 60px rgba(15,23,42,0.55);
+      --shadow-tiny: 0 1px 4px rgba(15,23,42,0.25);
+      --transition: 0.25s ease;
     }
 
-    body {
-  font-family: 'Times New Roman', Times, serif !important;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-/* GLOBAL FONT — all text except logo and title */
-body, p, span, div, button, input, textarea, select {
-  font-family: 'Times New Roman', Times, serif !important;
-}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Inter',sans-serif;
+      background:radial-gradient(circle at top,#1e293b 0,#020617 52%,#020617 100%);
+      min-height:100vh;
+      color:var(--text-soft);
+      overflow-x:hidden;
+      padding-bottom:48px; /* space for footer */
+    }
+    .app-container{display:flex;min-height:100vh}
 
-/* Title + Logo fonts (unchanged) */
-.logo-text, .brand-orange, .hero-title, .section-title {
-  font-family: 'Montserrat Alternates', sans-serif !important;
-  font-weight: 800;
-}
+    /* SIDEBAR */
+    .sidebar{
+      width:270px;
+      background:linear-gradient(180deg,rgba(15,23,42,0.98),rgba(15,23,42,0.96));
+      border-right:1px solid rgba(30,64,175,0.4);
+      box-shadow:12px 0 45px rgba(0,0,0,0.8);
+      position:fixed;inset:0 auto 0 0;z-index:900;
+      transform:translateX(0);transition:var(--transition);
+      display:flex;flex-direction:column;
+    }
+    .sidebar-top{
+      padding:16px 18px 12px;
+      border-bottom:1px solid rgba(30,64,175,0.4);
+    }
 
-    /* ---------- LOGO SECTION ---------- */
+    /* LOGO */
+    .brand-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:4px;
+    }
+    .brand-avatar{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      overflow:hidden;
+      border:2px solid #f97316;
+      background:#020617;
+      flex-shrink:0;
+    }
+    .brand-avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .brand-main{
+      font-family:'Playfair Display',serif;
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      color:#f97316;
+    }
+    .brand-sub{
+      font-family:'Nunito',sans-serif;
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:#22c55e;
+    }
+    .brand-tagline{
+      font-size:12px;
+      color:#38bdf8;
+      letter-spacing:0.08em;
+    }
 
-.logo-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  animation: fadeInDown 0.6s ease;
-}
+    .sidebar-nav{padding:16px 0 10px}
+    .nav-item{
+      display:flex;align-items:center;gap:12px;
+      padding:9px 20px;color:#cbd5f5;cursor:pointer;
+      border-left:3px solid transparent;font-size:14px;
+      transition:var(--transition);
+    }
+    .nav-item i{width:20px;text-align:center;font-size:16px}
+    .nav-item:hover{background:rgba(15,23,42,0.9);color:#f9fafb}
+    .nav-item.active{
+      background:radial-gradient(circle at left,rgba(248,113,22,0.35),transparent 60%);
+      border-left-color:#f97316;color:#fefce8;
+    }
 
-/* SVG Icon Styling */
-.logo-icon {
-  width: 50px;
-  height: 50px;
-  animation: bounceLogo 1.3s infinite ease-in-out;
-}
+    /* sidebar bottom social */
+    .sidebar-footer{
+      margin-top:auto;
+      padding:10px 18px 14px;
+      border-top:1px solid rgba(30,64,175,0.4);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:11px;
+      color:#9ca3af;
+    }
+    .sidebar-footer-icons a{
+      color:#e5e7eb;
+      margin-left:8px;
+      font-size:14px;
+      text-decoration:none;
+      transition:color .2s ease;
+    }
+    .sidebar-footer-icons a:hover{
+      color:#f97316;
+    }
 
-/* BIG Brand Text */
-.logo-text {
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: 0.6px;
-  line-height: 1;
-  position: relative;
-}
-/* Main body font */
-body {
-  font-family: 'Inter', sans-serif;
-  letter-spacing: 0.2px;
-}
+    /* MAIN / TOP BAR */
+    .main-content{
+      flex:1;margin-left:270px;
+      padding-bottom:80px;transition:margin-left .3s ease;
+    }
+    .top-bar{
+      position:sticky;top:0;z-index:850;
+      padding:12px 22px;display:flex;align-items:center;gap:16px;
+      background:linear-gradient(90deg,rgba(15,23,42,0.96),rgba(15,23,42,0.92));
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(30,64,175,0.45);
+    }
+    .menu-toggle{
+      display:none;background:none;border:none;
+      color:#e5e7eb;font-size:22px;cursor:pointer;
+    }
+    .search-container{flex:1;position:relative}
+    .search-input{
+      width:100%;padding:9px 14px 9px 38px;
+      border-radius:999px;border:1px solid rgba(148,163,184,0.5);
+      background:rgba(15,23,42,0.7);color:#e5e7eb;font-size:14px;
+      transition:var(--transition);
+    }
+    .search-input::placeholder{color:#6b7280}
+    .search-input:focus{
+      outline:none;border-color:var(--accent);
+      box-shadow:0 0 0 2px rgba(14,165,233,0.35);
+    }
+    .search-icon{
+      position:absolute;left:13px;top:50%;
+      transform:translateY(-50%);
+      color:#64748b;font-size:14px;
+    }
 
-/* Logo & brand text */
-.logo-text, .brand-orange {
-  font-family: 'Montserrat Alternates', sans-serif;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
+    /* RIGHT PROFILE AREA */
+    .top-profile{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-left:auto;
+      cursor:pointer;
+    }
+    .top-avatar{
+      width:32px;
+      height:32px;
+      border-radius:999px;
+      object-fit:cover;
+      border:2px solid rgba(148,163,184,0.8);
+      background:radial-gradient(circle at top,#f97316,#22c55e);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#0f172a;
+      font-size:14px;
+      font-weight:800;
+      overflow:hidden;
+    }
+    #top-avatar-img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:none;
+    }
+    .top-profile-name{
+      font-size:13px;
+      font-weight:600;
+      color:#e5e7eb;
+      display:none;
+    }
 
-/* Big hero title */
-.hero-title, .section-title {
-  font-family: 'Montserrat Alternates', sans-serif;
-  font-weight: 700;
-}
+    main{max-width:1160px;margin:0 auto}
+    .page{
+      display:none;padding:18px 20px 24px;
+      animation:fadeIn .3s ease-out;
+    }
+    .page.active{display:block}
+    .hero{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      border-radius:var(--radius-lg);
+      padding:20px 20px 18px;
+      background:
+        radial-gradient(circle at top left,rgba(248,113,22,0.55),transparent 60%),
+        radial-gradient(circle at bottom right,rgba(56,189,248,0.4),transparent 60%),
+        linear-gradient(135deg,#f8fafc,#e5e7eb);
+      box-shadow:var(--shadow-soft);
+      color:#111827;border:1px solid rgba(203,213,225,0.7);
+    }
+    .hero h1{font-size:24px;font-weight:800;margin-bottom:4px}
+    .hero p{font-size:13px;color:#4b5563}
+    .hero-badge{
+      font-size:11px;background:rgba(15,23,42,0.9);
+      color:#e5e7eb;padding:6px 10px;border-radius:999px;
+      border:1px solid rgba(15,23,42,0.8);
+    }
+    .section-title{
+      font-size:17px;font-weight:600;margin:10px 0 8px;color:#e5e7eb;
+    }
+    .categories{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+      gap:8px;margin-top:12px;margin-bottom:10px;
+    }
+    .category{
+      border-radius:999px;padding:7px 10px;font-size:12px;
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      cursor:pointer;background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.5);color:#cbd5f5;
+      transition:var(--transition);
+    }
+    .category i{font-size:13px}
+    .category.active{
+      background:linear-gradient(135deg,#f97316,#facc15);
+      border-color:transparent;color:#111827;
+    }
+    .food-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+    }
+    .food-card{
+      background:var(--surface);
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(148,163,184,0.4);
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;cursor:pointer;transition:var(--transition);
+    }
+    .food-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 20px 60px rgba(15,23,42,0.7);
+    }
+    .food-image{width:100%;height:160px;object-fit:cover}
+    .food-content{padding:12px 13px 11px;color:#111827}
+    .food-header{
+      display:flex;justify-content:space-between;
+      align-items:flex-start;margin-bottom:6px;
+    }
+    .food-name{font-size:14px;font-weight:600}
+    .food-price{font-size:16px;font-weight:700;color:#b91c1c}
+    .food-meta{
+      display:flex;justify-content:space-between;
+      align-items:center;font-size:11px;color:#6b7280;
+    }
+    .badge{
+      padding:3px 8px;border-radius:999px;
+      font-size:11px;font-weight:600;
+    }
+    .veg{background:#ecfdf5;color:#166534;border:1px solid #4ade80}
+    .non-veg{background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5}
+    .restaurant-tag{
+      padding:3px 8px;border-radius:999px;
+      background:#eef2ff;color:#111827;border:1px solid #c7d2fe;
+    }
 
-/* Menu item names */
-.food-name {
-  font-family: 'Montserrat Alternates', sans-serif;
+    /* RESTAURANTS – big horizontal cards, 2 per row */
+    .restaurant-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:24px;
+    }
+
+    .restaurant-card{
+      display:flex;
+      gap:16px;
+      background:var(--surface);
+      border-radius:var(--radius-md);
+      border:1px solid rgba(148,163,184,0.5);
+      padding:16px 18px;
+      box-shadow:var(--shadow-soft);
+      cursor:pointer;
+      transition:var(--transition);
+      color:#111827;
+    }
+    .restaurant-card:hover{
+      transform:translateY(-3px);
+      border-color:rgba(14,165,233,0.8);
+    }
+    .restaurant-image{
+      width:130px;
+      height:130px;
+      border-radius:16px;
+      object-fit:cover;
+      flex-shrink:0;
+    }
+    .restaurant-info{
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .restaurant-info h3{
+      font-size:18px;
+      margin-bottom:4px;
+    }
+    .restaurant-desc{
+      font-size:12px;
+      color:#6b7280;
+    }
+    .restaurant-meta-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      color:#6b7280;
+      margin-top:6px;
+    }
+    .restaurant-rating{
+      color:#facc15;
+      font-size:13px;
+      font-weight:600;
+    }
+    .restaurant-time{
+      font-weight:500;
+    }
+    .restaurant-open{
+      color:#22c55e;
+      font-weight:600;
+    }
+
+    .cart-container{max-width:760px;margin:0 auto}
+    .cart-item{
+      display:flex;gap:12px;align-items:center;
+      background:var(--surface);color:#111827;
+      border-radius:var(--radius-md);
+      border:1px solid rgba(148,163,184,0.5);
+      padding:12px;margin-bottom:10px;box-shadow:var(--shadow-soft);
+    }
+    .cart-item-image{
+      width:60px;height:60px;border-radius:14px;object-fit:cover;
+    }
+    .cart-item-name{font-size:14px;font-weight:600}
+    .qty-controls{
+      display:flex;align-items:center;gap:6px;
+      margin-left:auto;margin-right:4px;
+    }
+    .qty-btn{
+      width:28px;height:28px;border-radius:10px;
+      border:1px solid #cbd5e1;background:#f9fafb;
+      color:#111827;cursor:pointer;font-size:14px;
+    }
+    .cart-summary{
+      background:var(--surface);border-radius:var(--radius-lg);
+      border:1px solid rgba(148,163,184,0.6);
+      box-shadow:var(--shadow-soft);
+      padding:16px 14px 14px;margin-top:12px;color:#111827;
+    }
+    .summary-row{
+      display:flex;justify-content:space-between;
+      font-size:13px;margin-bottom:6px;color:#4b5563;
+    }
+    .summary-row.total{
+      padding-top:8px;border-top:1px dashed #d1d5db;
+      font-size:16px;font-weight:700;color:#111827;
+    }
+    .checkout-btn{
+      width:100%;border-radius:999px;border:none;
+      margin-top:10px;padding:11px;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#111827;font-size:14px;font-weight:600;cursor:pointer;
+    }
+
+    .bottom-nav{
+      display:none;position:fixed;bottom:0;left:0;right:0;
+      background:rgba(15,23,42,0.96);
+      border-top:1px solid rgba(30,64,175,0.5);
+      padding:6px 6px 8px;z-index:880;
+    }
+    .bottom-nav-item{
+      flex:1;text-align:center;padding:5px 4px;
+      cursor:pointer;border-radius:12px;font-size:11px;
+      color:#cbd5f5;transition:var(--transition);
+    }
+    .bottom-nav-item i{display:block;font-size:18px;margin-bottom:2px}
+    .bottom-nav-item.active{
+      background:rgba(248,113,22,0.22);
+      color:#fde68a;
+    }
+
+    /* DETAIL PAGE SECTIONS + DOTS */
+    .restaurant-section-title{
+      font-size:16px;
+      font-weight:700;
+      margin:14px 0 4px;
+      color:#e5e7eb;
+    }
+    .dot-label{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color:#9ca3af;
+      margin-bottom:6px;
+    }
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+    }
+    .dot-veg{background:#16a34a;}
+    .dot-nonveg{background:#b91c1c;}
+    .dot-other{background:#0ea5e9;}
+
+    /* HORIZONTAL ROWS – items in detail */
+    .restaurant-items-row{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      padding:4px 0 10px;
+    }
+    .restaurant-items-row::-webkit-scrollbar{
+      height:6px;
+    }
+    .restaurant-items-row::-webkit-scrollbar-thumb{
+      background:#4b5563;
+      border-radius:999px;
+    }
+
+    .restaurant-item-card{
+      display:flex;
+      gap:16px;
+      padding:16px;
+      border-radius:18px;
+      background:var(--surface);
+      border:1px solid rgba(148,163,184,0.5);
+      color:#111827;
+      flex:0 0 520px;
+    }
+    .restaurant-item-img{
+      width:160px;
+      height:110px;
+      border-radius:14px;
+      object-fit:cover;
+    }
+
+    .restaurant-item-main{flex:1;}
+    .restaurant-item-name{
+      font-size:14px;
+      font-weight:600;
+      margin-bottom:2px;
+    }
+    .restaurant-item-meta{
+      font-size:11px;
+      color:#6b7280;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .restaurant-item-price{
+      font-size:14px;
+      font-weight:700;
+      color:#b91c1c;
+      margin-top:4px;
+    }
+    .restaurant-tags {
+  font-size: 11px;
+  color: #b91c1c;           /* red */
+  margin-top: 4px;
   font-weight: 600;
 }
 
-/* Buttons */
-.primary-btn, .add-btn {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-}
 
-/* Clean descriptions */
-.food-desc, .food-meta-line {
-  font-family: 'Inter', sans-serif;
-}
-
-
-/* Orange Gradient for “Reddy’s” */
-.brand-orange {
-  background: linear-gradient(90deg, #ff8a00, #ff5a00, #ff2e00);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-}
-
-/* Underline animation on hover */
-.logo-text:hover::after {
-  width: 100%;
-}
-
-.logo-text::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  background: #ff5a00;
-  width: 0;
-  height: 3px;
-  border-radius: 3px;
-  transition: width 0.35s ease;
-}
-
-/* ---------- ANIMATIONS ---------- */
-
-@keyframes bounceLogo {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes fadeInDown {
-  0% { opacity: 0; transform: translateY(-10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-
-    /* Header & nav */
-
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: #ffffff;
-      border-bottom: 1px solid var(--border);
-      padding: 0.8rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .logo-icon {
-      font-size: 1.25rem;
-    }
-
-    .logo span.highlight {
-      color: var(--accent);
-    }
-
-    .nav {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .nav-link {
-      border: none;
-      background: transparent;
-      font: inherit;
-      color: var(--muted);
-      padding: 0.35rem 0.9rem;
-      border-radius: 999px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: var(--transition-fast);
-      font-size: 0.9rem;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--accent);
-      border-color: var(--accent-soft);
-      background: var(--accent-soft);
-    }
-
-    /* Layout */
-
-    .main {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 1.4rem 1.5rem 3rem;
-    }
-
-    .page {
-      display: none;
-      animation: fadeIn 0.25s ease-out;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    /* Hero */
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-bottom: 1.1rem;
-    }
-
-    .hero-title {
-      font-size: clamp(1.7rem, 2vw + 1rem, 2.1rem);
-      font-weight: 700;
-    }
-
-    .hero-subtitle {
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
-
-    .hero-meta {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .hero-actions {
-      margin-top: 0.7rem;
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .search-input {
-      flex: 1 1 240px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      padding: 0.55rem 0.9rem;
-      font-size: 0.9rem;
-      outline: none;
-    }
-
-    .search-input::placeholder {
-      color: #9ca3af;
-    }
-
-    .primary-btn {
-      border-radius: 999px;
-      border: none;
-      background: var(--accent);
-      color: #ffffff;
-      padding: 0.55rem 1.2rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(248, 113, 22, 0.25);
-      transition: var(--transition-fast);
-    }
-
-    .primary-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 30px rgba(248, 113, 22, 0.35);
-    }
-
-    /* Filter chips */
-
-    .home-filters {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin: 0.6rem 0 0.9rem;
-    }
-
-    .chip {
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 0.32rem 0.9rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-      cursor: pointer;
-      transition: var(--transition-fast);
-    }
-
-    .chip:hover {
-      border-color: var(--accent-soft);
-    }
-
-    .chip.active {
-      background: var(--accent-soft);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    /* Horizontal rows */
-
-    .home-row {
-      margin-bottom: 1.4rem;
-    }
-
-    .row-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.4rem;
-    }
-
-    .row-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .row-link {
-      font-size: 0.8rem;
-      color: var(--accent);
-      border: none;
-      background: transparent;
-      cursor: pointer;
-    }
-
-    .card-row {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      padding-bottom: 0.4rem;
-      scroll-snap-type: x mandatory;
-    }
-
-    .card-row::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .card-row::-webkit-scrollbar-thumb {
-      background: #d4d4d8;
-      border-radius: 999px;
-    }
-
-    /* Big item card (horizontal rows & detail grid re-use) */
-
-    .food-card {
-      min-width: 295px;
-      max-width: 295px;
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
-      overflow: hidden;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    }
-
-    .food-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
-    }
-
-    .food-card-img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .food-card-body {
-      padding: 0.75rem 0.9rem 0.8rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      flex: 1;
-    }
-
-    .badge-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.75rem;
-      margin-bottom: 0.1rem;
-    }
-
-    .badge {
-      background: #fee2e2;
-      color: #b91c1c;
-      padding: 0.15rem 0.4rem;
-      border-radius: 999px;
-      font-weight: 500;
-    }
-
-    .rating {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.15rem;
-      font-size: 0.75rem;
-      color: #f59e0b;
-    }
-
-    .food-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .food-desc {
-      font-size: 0.78rem;
-      color: var(--muted);
-      min-height: 2.6em;
-    }
-
-    .food-meta-line {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .restaurant-pill {
-      background: #f3f4f6;
-      padding: 0.12rem 0.5rem;
-      border-radius: 999px;
-    }
-
-    .veg-dot,
-    .nonveg-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      border: 2px solid;
-      box-sizing: border-box;
-    }
-
-    .veg-dot {
-      border-color: #16a34a;
-      background: #bbf7d0;
-    }
-
-    .nonveg-dot {
-      border-color: #dc2626;
-      background: #fecaca;
-    }
-
-    .food-footer {
-      margin-top: 0.3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .price {
-      font-weight: 600;
-    }
-
-    .add-btn {
-      border-radius: 999px;
-      border: none;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: #111827;
-      color: #ffffff;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .add-btn span {
-      font-size: 1rem;
-    }
-
-    /* Restaurant list & detail */
-
-    .section-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin: 0.6rem 0 0.4rem;
-    }
-
-    .restaurant-grid {
-      margin-top: 0.6rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-    }
-
-    .rest-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 0.8rem;
-      display: flex;
-      gap: 0.7rem;
-      align-items: center;
-      box-shadow: var(--shadow-soft);
-      cursor: pointer;
-      transition: var(--transition-fast);
-    }
-
-    .rest-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16);
-    }
-
-    .rest-img {
-      width: 72px;
-      height: 72px;
-      border-radius: 16px;
-      object-fit: cover;
-    }
-
-    .rest-main h3 {
-      font-size: 0.95rem;
-      margin-bottom: 0.1rem;
-    }
-
-    .rest-meta {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .rest-meta span + span::before {
-      content: "•";
-      margin: 0 0.25rem;
-    }
-
-    /* Restaurant detail */
-
-    .back-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .back-btn {
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      padding: 0.3rem 0.7rem;
-      font-size: 0.8rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .rest-detail-header {
-      margin-bottom: 0.7rem;
-    }
-
-    .rest-detail-header h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.1rem;
-    }
-
-    .rest-detail-sub {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .detail-grid {
-      margin-top: 0.8rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-    }
-
-    /* Cart */
-
-    .empty-state {
-      margin-top: 1rem;
-      padding: 1.1rem;
-      border-radius: var(--radius-md);
-      border: 1px dashed var(--border);
-      background: #ffffff;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .cart-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .cart-items {
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-
-    .cart-item {
-      background: #ffffff;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.7rem;
-    }
-
-    .cart-item-main {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-
-    .cart-item-name {
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .cart-item-rest {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .cart-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-    }
-
-    .qty-box {
-      display: inline-flex;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .qty-btn {
-      border: none;
-      background: #f9fafb;
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      font-size: 1rem;
-      line-height: 1;
-    }
-
-    .qty-value {
-      padding: 0 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 20px;
-    }
-
-    .cart-summary {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 0.9rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .cart-summary h3 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .summary-row.total {
-      margin-top: 0.3rem;
-      padding-top: 0.3rem;
-      border-top: 1px solid var(--border);
-      font-weight: 600;
-    }
-
-    .cart-remove {
-      border: none;
-      background: transparent;
-      color: #dc2626;
-      font-size: 0.78rem;
-      cursor: pointer;
-    }
-
-    /* Forms */
-
-    .form {
-      margin-top: 0.8rem;
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 0.9rem;
-      max-width: 420px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .form-group {
-      margin-bottom: 0.7rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-      font-size: 0.85rem;
-    }
-
-    .form-group label {
-      font-weight: 500;
-    }
-
-    .form-input,
-    .form-textarea,
-    .form-select {
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      padding: 0.45rem 0.55rem;
-      font-size: 0.88rem;
-      outline: none;
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-
-    /* Orders */
-
-    .orders-list {
-      margin-top: 0.8rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-
-    .order-card {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 0.9rem;
-    }
-
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.4rem;
-      font-size: 0.9rem;
-    }
-
-    .order-meta {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 0.3rem;
-    }
-
-    .order-items ul {
-      margin-left: 1.1rem;
-      font-size: 0.82rem;
-    }
-
-    /* Footer */
-
-    .footer {
-      border-top: 1px solid var(--border);
-      padding: 0.7rem 1.5rem;
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--muted);
-      background: #ffffff;
-    }
-
-    /* Utilities */
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 780px) {
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.4rem;
+    .item-qty-controls{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+    }
+    .item-qty-row{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .item-qty-btn{
+      width:26px;
+      height:26px;
+      border-radius:9px;
+      border:1px solid #cbd5e1;
+      background:#f9fafb;
+      cursor:pointer;
+    }
+    .item-qty-value{
+      min-width:18px;
+      text-align:center;
+      font-weight:600;
+    }
+    .item-add-btn{
+      padding:4px 10px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      font-size:11px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    /* FOOTER */
+    .app-footer{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      height:36px;
+      padding:0 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:rgba(15,23,42,0.96);
+      border-top:1px solid rgba(30,64,175,0.5);
+      font-size:11px;
+      color:#9ca3af;
+      z-index:885;
+    }
+    .app-footer-right a{
+      color:#e5e7eb;
+      margin-left:10px;
+      font-size:14px;
+      text-decoration:none;
+      transition:color .2s ease;
+    }
+    .app-footer-right a:hover{
+      color:#f97316;
+    }
+
+    @media(max-width:900px){
+      .restaurant-grid{
+        grid-template-columns:1fr;
       }
-      .cart-layout {
-        grid-template-columns: minmax(0, 1fr);
+      .restaurant-image{
+        width:110px;
+        height:110px;
       }
-      .main {
-        padding-inline: 1rem;
+      .restaurant-item-card{
+        flex:0 0 92vw;
+      }
+      .restaurant-item-img{
+        width:40vw;
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @media(max-width:1024px){
+      .sidebar{transform:translateX(-100%)}
+      .sidebar.active{transform:translateX(0)}
+      .main-content{margin-left:0}
+      .menu-toggle{display:block}
+      .bottom-nav{display:flex}
+    }
+    @media(max-width:768px){
+      .page{padding:14px 14px 80px}
+      .food-grid{grid-template-columns:1fr}
+      .top-profile-name{display:none;}
+      .restaurant-item-card{flex:0 0 260px;}
+    }
+
+    /* PROFILE MODAL */
+    .profile-modal-backdrop{
+      position:fixed;inset:0;
+      background:rgba(15,23,42,0.75);
+      display:none;align-items:center;justify-content:center;
+      z-index:1000;
+    }
+    .profile-modal-backdrop.visible{display:flex}
+    .profile-modal{
+      width:320px;background:rgba(15,23,42,0.98);
+      border-radius:18px;border:1px solid rgba(30,64,175,0.6);
+      box-shadow:var(--shadow-soft);
+      padding:14px 14px 12px;
+    }
+    .profile-modal-header{
+      display:flex;justify-content:space-between;
+      align-items:center;margin-bottom:8px;
+      color:#e5e7eb;font-size:14px;font-weight:600;
+    }
+    .profile-modal-header button{
+      background:none;border:none;color:#9ca3af;
+      cursor:pointer;font-size:18px;
+    }
+    .profile-header{
+      display:flex;gap:10px;align-items:center;margin-bottom:10px;
+    }
+    .profile-photo-label{
+      position:relative;width:54px;height:54px;
+      border-radius:999px;overflow:hidden;cursor:pointer;
+      border:2px solid rgba(148,163,184,0.8);
+      background:radial-gradient(circle at top,#f97316,#22c55e);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .profile-photo-preview{
+      width:100%;height:100%;object-fit:cover;display:none;
+    }
+    .profile-photo-edit{
+      position:absolute;bottom:-2px;right:-2px;
+      background:rgba(15,23,42,0.9);
+      border-radius:999px;padding:3px;
+      font-size:10px;color:#e5e7eb;
+    }
+    .profile-header-text div:first-child{
+      font-size:14px;font-weight:600;color:#e5e7eb;
+    }
+    .profile-header-text div:last-child{
+      font-size:11px;color:#9ca3af;
+    }
+    .profile-field{
+      display:flex;flex-direction:column;
+      gap:3px;margin-bottom:7px;font-size:12px;color:#e5e7eb;
+    }
+    .profile-input{
+      border-radius:10px;border:1px solid #1f2937;
+      background:#020617;color:#e5e7eb;
+      padding:6px 8px;font-size:12px;
+    }
+    .profile-input::placeholder{color:#4b5563}
+    .profile-actions{
+      display:flex;justify-content:flex-end;
+      margin-top:4px;gap:8px;
+    }
+    .profile-save{
+      border:none;border-radius:999px;
+      padding:6px 12px;font-size:12px;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#111827;font-weight:600;cursor:pointer;
+    }
+    .profile-cancel{
+      border:none;border-radius:999px;
+      padding:6px 10px;font-size:12px;
+      background:#020617;color:#e5e7eb;cursor:pointer;
     }
   </style>
 </head>
-<body data-page="home">
-<header class="header">
-  <div class="logo-brand">
-  <div class="logo-icon">
-    <!-- Custom SVG Logo -->
-    <svg viewBox="0 0 64 64" width="45" height="45">
-      <circle cx="32" cy="32" r="30" fill="#fff4e6" stroke="#ff5e00" stroke-width="3"/>
-      <path d="M20 16 v22" stroke="#ff5e00" stroke-width="4" stroke-linecap="round"/>
-      <path d="M28 16 v22" stroke="#ff5e00" stroke-width="4" stroke-linecap="round"/>
-      <path d="M24 16 v22" stroke="#ff5e00" stroke-width="4" stroke-linecap="round"/>
-      <path d="M38 16 Q34 24 38 32 Q42 24 38 16" stroke="#ff5e00" stroke-width="4" fill="none" stroke-linecap="round"/>
-    </svg>
-  </div>
+<body>
+<div class="app-container">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <div class="brand-row">
+        <div class="brand-avatar">
+          <img src="generated-image.png" alt="Reddy's Kitchen logo">
+        </div>
+        <div class="brand-text">
+          <div class="brand-main">Reddy's</div>
+          <div class="brand-sub">Kitchen</div>
+        </div>
+      </div>
+      <div class="brand-tagline">Flash Food Delivery - Srikakulam</div>
+    </div>
 
-  <div class="logo-text">
-    <span class="brand-orange">Reddy's</span> Kitchen
+    <div class="sidebar-nav">
+      <div class="nav-item active" data-page="home"><i class="fas fa-home"></i><span>Home</span></div>
+      <div class="nav-item" data-page="restaurants"><i class="fas fa-utensils"></i><span>Restaurants</span></div>
+      <div class="nav-item" data-page="cart"><i class="fas fa-shopping-cart"></i><span>Cart (<span id="cart-count">0</span>)</span></div>
+      <div class="nav-item" data-page="orders"><i class="fas fa-list"></i><span>Orders</span></div>
+      <div class="nav-item" data-page="order-history">
+  <i class="fas fa-clock-rotate-left"></i><span>Order History</span>
+</div>
+
+      <div class="nav-item" data-page="support"><i class="fas fa-headset"></i><span>Support</span></div>
+    </div>
+
+    <!-- sidebar social + copyright -->
+    <div class="sidebar-footer">
+      <span>© VHV Reddy</span>
+      <span class="sidebar-footer-icons">
+        <a href="https://instagram.com/your_instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://facebook.com/your_facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="mailto:yourmail@example.com"><i class="fas fa-envelope"></i></a>
+      </span>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <header class="top-bar">
+      <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input id="search-input" class="search-input" placeholder="Search biryani, pizza, burgers, ice creams...">
+      </div>
+
+      <div class="top-profile" id="top-profile">
+        <div class="top-avatar">
+          <span id="top-avatar-initial">R</span>
+          <img id="top-avatar-img" alt="Profile photo">
+        </div>
+        <span class="top-profile-name" id="top-profile-name">Guest user</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- HOME -->
+      <section id="home" class="page active">
+        <div class="hero">
+          <div>
+            <h1 id="greeting-text">Good Afternoon!</h1>
+            <p>Order from 6 partner kitchens across Srikakulam. Fresh, quick, and reliable delivery.</p>
+          </div>
+          <div class="hero-badge">
+            <i class="fas fa-clock"></i> Avg 25–35 mins
+          </div>
+        </div>
+
+        <div class="categories" id="categories">
+          <div class="category active" data-category="all"><i class="fas fa-fire"></i>All</div>
+          <div class="category" data-category="Biryani"><i class="fas fa-bowl-rice"></i>Biryani</div>
+          <div class="category" data-category="Mandi"><i class="fas fa-drumstick-bite"></i>Mandi</div>
+          <div class="category" data-category="FastFood"><i class="fas fa-burger"></i>Fast Food</div>
+          <div class="category" data-category="Dessert"><i class="fas fa-ice-cream"></i>Desserts</div>
+          <div class="category" data-category="Beverage"><i class="fas fa-glass-martini-alt"></i>Drinks</div>
+        </div>
+
+        <h2 class="section-title">Recommended for you</h2>
+        <div class="food-grid" id="food-grid"></div>
+      </section>
+
+      <!-- RESTAURANTS -->
+      <section id="restaurants" class="page">
+        <h2 class="section-title">All partner kitchens</h2>
+        <div class="restaurant-grid" id="restaurant-grid"></div>
+      </section>
+
+      <!-- RESTAURANT DETAIL WITH BACK BUTTON -->
+      <section id="restaurant-detail" class="page">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <button
+            onclick="goBackFromDetail()"
+            style="border:none;border-radius:999px;padding:6px 10px;
+                   background:rgba(15,23,42,0.9);color:#e5e7eb;
+                   display:flex;align-items:center;gap:6px;cursor:pointer;
+                   font-size:12px;">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+          </button>
+          <h2 class="section-title" id="detail-title" style="margin:0;">Restaurant menu</h2>
+        </div>
+        <div id="restaurant-detail-content"></div>
+      </section>
+
+      <!-- CART with back button -->
+      <section id="cart" class="page">
+        <div class="cart-container">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <button
+              onclick="goBackFromCart()"
+              style="border:none;border-radius:999px;padding:6px 10px;
+                     background:rgba(15,23,42,0.9);color:#e5e7eb;
+                     display:flex;align-items:center;gap:6px;cursor:pointer;
+                     font-size:12px;">
+              <i class="fas fa-arrow-left"></i>
+              <span>Back</span>
+            </button>
+            <h2 class="section-title" style="margin:0;">Your cart</h2>
+          </div>
+
+          <div id="cart-items"></div>
+          <div id="cart-summary" style="display:none;">
+            <div class="cart-summary">
+              <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+              <div class="summary-row"><span>Delivery</span><span id="delivery">₹40</span></div>
+              <div class="summary-row total"><span>Total</span><span id="total">₹40</span></div>
+              <button class="checkout-btn" onclick="placeOrder()">Place order</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ORDERS -->
+      <section id="orders" class="page">
+        <h2 class="section-title">Your orders</h2>
+        <div id="orders-list" style="display:none;"></div>
+      </section>
+      <section id="order-history" class="page">
+  <h2 class="section-title">Order history</h2>
+  <div id="order-history-list" style="display:none;"></div>
+</section>
+
+
+      <!-- SUPPORT -->
+      <section id="support" class="page">
+  <h2 class="section-title">Support</h2>
+  <div class="cart-summary">
+    <p style="font-size:13px;color:#4b5563;margin-bottom:6px;">
+      For any help with your orders, contact:
+    </p>
+    <p style="font-size:13px;color:#111827;margin-bottom:4px;">
+      <i class="fas fa-phone" style="margin-right:6px;color:#22c55e;"></i>
+      <strong>6300293068</strong>
+    </p>
+    <p style="font-size:13px;color:#111827;">
+      <i class="fas fa-envelope" style="margin-right:6px;color:#0ea5e9;"></i>
+      <a href="mailto:harsha9848210516@gmail.com" style="color:#0ea5e9;text-decoration:none;">
+        harsha9848210516@gmail.com
+      </a>
+    </p>
+  </div>
+</section>
+
+
+<div class="bottom-nav">
+  <div class="bottom-nav-item active" data-page="home"><i class="fas fa-home"></i>Home</div>
+  <div class="bottom-nav-item" data-page="restaurants"><i class="fas fa-utensils"></i>Restaurants</div>
+  <div class="bottom-nav-item" data-page="cart"><i class="fas fa-shopping-cart"></i>Cart</div>
+  <div class="bottom-nav-item" data-page="orders"><i class="fas fa-list"></i>Orders</div>
+  <div class="bottom-nav-item" data-page="order-history">
+  <i class="fas fa-clock-rotate-left"></i>History
+</div>
+</div>
+
+<!-- FOOTER at bottom of site -->
+<footer class="app-footer">
+  <div class="app-footer-left">
+    © 2025 Vakada Harsha Vardhan Reddy
+  </div>
+  <div class="app-footer-right">
+    <a href="https://instagram.com/your_instagram" target="_blank" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://facebook.com/your_facebook" target="_blank" aria-label="Facebook">
+      <i class="fab fa-facebook"></i>
+    </a>
+    <a href="mailto:yourmail@example.com" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</footer>
+
+<footer class="app-footer">
+  <div class="app-footer-left" style="flex:1;text-align:center;">
+    © 2025 All rights reserved by Harsha Vardhan Reddy
+  </div>
+  <div class="app-footer-right" style="position:absolute;right:16px;">
+    <a href="https://instagram.com/your_instagram" target="_blank" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://facebook.com/your_facebook" target="_blank" aria-label="Facebook">
+      <i class="fab fa-facebook"></i>
+    </a>
+    <a href="mailto:yourmail@example.com" aria-label="Email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</footer>
+
+
+<!-- PROFILE MODAL -->
+<div class="profile-modal-backdrop" id="profile-modal-backdrop">
+  <div class="profile-modal">
+    <div class="profile-modal-header">
+      <span>Edit profile</span>
+      <button id="profile-close">&times;</button>
+    </div>
+    <div class="profile-header">
+      <label for="profile-photo" class="profile-photo-label">
+        <img id="profile-photo-preview" class="profile-photo-preview" alt="Profile photo">
+        <span class="profile-photo-edit"><i class="fas fa-camera"></i></span>
+      </label>
+      <input id="profile-photo" type="file" accept="image/*" style="display:none;">
+      <div class="profile-header-text">
+        <div id="profile-display-name">Guest user</div>
+        <div>Personal details for orders</div>
+      </div>
+    </div>
+    <div class="profile-field">
+      <label for="profile-name">Name</label>
+      <input id="profile-name" class="profile-input" placeholder="Your full name">
+    </div>
+    <div class="profile-field">
+      <label for="profile-email">Email</label>
+      <input id="profile-email" class="profile-input" type="email" placeholder="you@example.com">
+    </div>
+    <div class="profile-field">
+      <label for="profile-mobile">Mobile</label>
+      <input id="profile-mobile" class="profile-input" placeholder="+91 98765 43210">
+    </div>
+    <div class="profile-actions">
+      <button class="profile-cancel" id="profile-cancel">Cancel</button>
+      <button class="profile-save" id="profile-save">Save</button>
+    </div>
   </div>
 </div>
 
-  <nav class="nav">
-    <button class="nav-link active" data-page-target="home">Home</button>
-    <button class="nav-link" data-page-target="restaurants">Restaurants</button>
-    <button class="nav-link" data-page-target="cart">Cart</button>
-    <button class="nav-link" data-page-target="orders">Orders</button>
-    <button class="nav-link" data-page-target="profile">Profile</button>
-    <button class="nav-link" data-page-target="login">Login</button>
-  </nav>
-</header>
-
-<main class="main">
-
-  <!-- HOME PAGE -->
-  <section id="home" class="page active">
-    <div class="hero">
-     <div class="hero-title"><span class="brand-orange">Reddy's</span> Special Delivery</div>
-      <div class="hero-subtitle">Curated favourites from Srikakulam restaurants.</div>
-      <div class="hero-meta">Srikakulam • Open 11:00 AM – 11:00 PM</div>
-      <div class="hero-actions">
-        <input id="home-search" class="search-input" placeholder="Search biryani, mandi, pizza, burgers..." />
-        <button class="primary-btn" id="home-view-menu">View All Restaurants</button>
-      </div>
-    </div>
-
-    <div class="home-filters">
-      <button class="chip active" data-filter="all">All</button>
-      <button class="chip" data-filter="veg">Veg</button>
-      <button class="chip" data-filter="nonveg">Non-Veg</button>
-    </div>
-
-    <!-- row 1: biryani only -->
-    <div class="home-row">
-      <div class="row-header">
-        <div class="row-title">Top Biryanis in Srikakulam</div>
-        <button class="row-link" data-open-category="Biryani">View all biryanis →</button>
-      </div>
-      <div class="card-row" id="row-biryani"></div>
-    </div>
-
-    <!-- row 2: mandi -->
-    <div class="home-row">
-      <div class="row-header">
-        <div class="row-title">Mandi & Family Packs</div>
-        <button class="row-link" data-open-category="Mandi">View all mandi →</button>
-      </div>
-      <div class="card-row" id="row-mandi"></div>
-    </div>
-
-    <!-- row 3: fast food -->
-    <div class="home-row">
-      <div class="row-header">
-        <div class="row-title">Pizza, Burgers & Fast Food</div>
-        <button class="row-link" data-open-category="FastFood">View all fast food →</button>
-      </div>
-      <div class="card-row" id="row-fastfood"></div>
-    </div>
-
-    <!-- row 4: desserts & drinks -->
-    <div class="home-row">
-      <div class="row-header">
-        <div class="row-title">Desserts, Ice Creams & Beverages</div>
-        <button class="row-link" data-open-category="Dessert">View all desserts →</button>
-      </div>
-      <div class="card-row" id="row-dessert"></div>
-    </div>
-  </section>
-
-  <!-- RESTAURANTS LIST -->
-  <section id="restaurants" class="page">
-    <div class="hero">
-      <div class="hero-title">Restaurants in Srikakulam</div>
-      <div class="hero-subtitle">Tap a restaurant to view its full menu.</div>
-      <div class="hero-actions">
-        <input id="rest-search" class="search-input" placeholder="Search restaurant or dish..." />
-      </div>
-    </div>
-
-    <h2 class="section-title">All partners</h2>
-    <div class="restaurant-grid" id="restaurant-grid"></div>
-  </section>
-
-  <!-- RESTAURANT DETAIL -->
-  <section id="restaurant-detail" class="page">
-    <div class="back-row">
-      <button class="back-btn" id="rest-back">
-        ← Back
-      </button>
-    </div>
-    <div class="rest-detail-header">
-      <h2 id="detail-name"></h2>
-      <div class="rest-detail-sub" id="detail-sub"></div>
-    </div>
-    <div class="detail-grid" id="detail-grid"></div>
-  </section>
-
-  <!-- CART -->
-  <section id="cart" class="page">
-    <div class="hero">
-      <div class="hero-title">Your Cart</div>
-    </div>
-    <div id="cart-empty" class="empty-state">
-      Your cart is empty. Add something tasty from the home page or restaurants.
-    </div>
-    <div id="cart-layout" class="cart-layout hidden">
-      <div class="cart-items" id="cart-items"></div>
-      <div class="cart-summary">
-        <h3>Summary</h3>
-        <div class="summary-row">
-          <span>Subtotal</span>
-          <span id="cart-subtotal">₹0</span>
-        </div>
-        <div class="summary-row">
-          <span>Delivery</span>
-          <span id="cart-delivery">₹40</span>
-        </div>
-        <div class="summary-row total">
-          <span>Total</span>
-          <span id="cart-total">₹0</span>
-        </div>
-
-        <form id="checkout-form" class="form" style="margin-top:0.9rem;">
-          <div class="form-group">
-            <label for="chk-name">Full name</label>
-            <input id="chk-name" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label for="chk-phone">Mobile</label>
-            <input id="chk-phone" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label for="chk-address">Delivery address</label>
-            <textarea id="chk-address" class="form-textarea" required></textarea>
-          </div>
-          <div class="form-group">
-            <label for="chk-pay">Payment method</label>
-            <select id="chk-pay" class="form-select">
-              <option>Cash on Delivery</option>
-              <option>UPI</option>
-              <option>Card</option>
-            </select>
-          </div>
-          <button type="submit" class="primary-btn" style="width:100%;margin-top:0.3rem;">Place Order</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- ORDERS -->
-  <section id="orders" class="page">
-    <div class="hero">
-      <div class="hero-title">Your Orders</div>
-      <div class="hero-subtitle">Track what you have ordered so far.</div>
-    </div>
-    <div id="orders-empty" class="empty-state">
-      No orders yet. Place an order from Home or Restaurants.
-    </div>
-    <div class="orders-list" id="orders-list"></div>
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profile" class="page">
-    <div class="hero">
-      <div class="hero-title">Profile</div>
-      <div class="hero-subtitle">Manage your details for faster checkout.</div>
-    </div>
-    <div id="profile-guest" class="empty-state">
-      You are not logged in. Please use the Login page to create a simple profile.
-    </div>
-    <div id="profile-info" class="form hidden">
-      <div class="form-group">
-        <label>Name</label>
-        <div id="profile-name"></div>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <div id="profile-email"></div>
-      </div>
-      <button id="logout-btn" class="primary-btn" style="margin-top:0.3rem;">Logout</button>
-    </div>
-  </section>
-
-  <!-- LOGIN -->
-  <section id="login" class="page">
-    <div class="hero">
-      <div class="hero-title">Login / Create Profile</div>
-      <div class="hero-subtitle">This is a front-end only demo (no password auth).</div>
-    </div>
-    <form id="login-form" class="form">
-      <div class="form-group">
-        <label for="login-name">Name</label>
-        <input id="login-name" class="form-input" required />
-      </div>
-      <div class="form-group">
-        <label for="login-email">Email</label>
-        <input id="login-email" type="email" class="form-input" required />
-      </div>
-      <button type="submit" class="primary-btn" style="width:100%;margin-top:0.4rem;">Save Profile</button>
-    </form>
-  </section>
-
-</main>
-
-<footer class="footer">
-  © <span id="year"></span> Reddy's Kitchen • Srikakulam
-</footer>
-
 <script>
-  // ---------- DATA ----------
+  /* RESTAURANT DATA */
   const restaurants = [
-    {
-      id: "r1",
-      name: "NLR Specials",
-      cuisine: "Andhra",
-      rating: 4.6,
-      time: "30 mins",
-      image:
-        "https://images.pexels.com/photos/11170284/pexels-photo-11170284.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          id: "r1m1",
-          name: "Nellore Chicken Dum Biryani",
-          desc: "Slow-cooked spicy dum biryani with raita & salan.",
-          price: 240,
-          veg: false,
-          rating: 4.7,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/12737656/pexels-photo-12737656.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r1m2",
-          name: "Special Mutton Biryani",
-          desc: "Tender mutton pieces in rich masala rice.",
-          price: 310,
-          veg: false,
-          rating: 4.8,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/1624487/pexels-photo-1624487.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r1m3",
-          name: "Paneer Dum Biryani",
-          desc: "Fragrant basmati with marinated paneer cubes.",
-          price: 220,
-          veg: true,
-          rating: 4.4,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/10670776/pexels-photo-10670776.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r1m4",
-          name: "Egg Fried Rice",
-          desc: "Smoky tawa fried rice with egg & veggies.",
-          price: 170,
-          veg: false,
-          rating: 4.2,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/4109130/pexels-photo-4109130.jpeg?auto=compress&cs=tinysrgb&w=800"
-        }
-      ]
-    },
-    {
-      id: "r2",
-      name: "Bulugondla Family Restaurant",
-      cuisine: "South Indian",
-      rating: 4.4,
-      time: "28 mins",
-      image:
-        "https://images.pexels.com/photos/5920740/pexels-photo-5920740.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          id: "r2m1",
-          name: "Family Chicken Biryani (4 pax)",
-          desc: "Big handi biryani with chicken pieces for family.",
-          price: 650,
-          veg: false,
-          rating: 4.5,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/6989232/pexels-photo-6989232.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r2m2",
-          name: "Veg Family Meal Combo",
-          desc: "Curries, rice, roti & dessert for 4 people.",
-          price: 520,
-          veg: true,
-          rating: 4.3,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/3214161/pexels-photo-3214161.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r2m3",
-          name: "Fruit Salad with Ice Cream",
-          desc: "Seasonal fruits with vanilla scoop.",
-          price: 150,
-          veg: true,
-          rating: 4.6,
-          category: "Dessert",
-          image:
-            "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg?auto=compress&cs=tinysrgb&w=800"
-        }
-      ]
-    },
-    {
-      id: "r3",
-      name: "Shoel Biriyani",
-      cuisine: "Arabian",
-      rating: 4.5,
-      time: "32 mins",
-      image:
-        "https://images.pexels.com/photos/11232406/pexels-photo-11232406.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          id: "r3m1",
-          name: "Chicken Majboos Biryani",
-          desc: "Arabian style chicken rice with spices.",
-          price: 280,
-          veg: false,
-          rating: 4.6,
-          category: "Biryani",
-          image:
-            "https://images.pexels.com/photos/11170267/pexels-photo-11170267.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r3m2",
-          name: "Shoel Special Mandi (Half)",
-          desc: "Half mandi platter with juicy chicken.",
-          price: 420,
-          veg: false,
-          rating: 4.7,
-          category: "Mandi",
-          image:
-            "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r3m3",
-          name: "Shoel Family Mandi (4 pax)",
-          desc: "Family mandi served with rice & dips.",
-          price: 980,
-          veg: false,
-          rating: 4.8,
-          category: "Mandi",
-          image:
-            "https://images.pexels.com/photos/1395316/pexels-photo-1395316.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r3m4",
-          name: "Kunafa Slice",
-          desc: "Crispy dessert with soft cheese center.",
-          price: 180,
-          veg: true,
-          rating: 4.5,
-          category: "Dessert",
-          image:
-            "https://images.pexels.com/photos/4110003/pexels-photo-4110003.jpeg?auto=compress&cs=tinysrgb&w=800"
-        }
-      ]
-    },
-    {
-      id: "r4",
-      name: "Adhil Mandi House",
-      cuisine: "Arabian",
-      rating: 4.3,
-      time: "35 mins",
-      image:
-        "https://images.pexels.com/photos/1395316/pexels-photo-1395316.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          id: "r4m1",
-          name: "Chicken Mandi (Single)",
-          desc: "Single mandi plate with grilled chicken.",
-          price: 260,
-          veg: false,
-          rating: 4.4,
-          category: "Mandi",
-          image:
-            "https://images.pexels.com/photos/3731477/pexels-photo-3731477.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r4m2",
-          name: "Adhil Family Mandi",
-          desc: "Generous mandi serving 3–4 hungry people.",
-          price: 1050,
-          veg: false,
-          rating: 4.6,
-          category: "Mandi",
-          image:
-            "https://images.pexels.com/photos/3731476/pexels-photo-3731476.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r4m3",
-          name: "Mint Lemon Cooler",
-          desc: "Refreshing lemon drink with mint.",
-          price: 90,
-          veg: true,
-          rating: 4.2,
-          category: "Beverage",
-          image:
-            "https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&cs=tinysrgb&w=800"
-        }
-      ]
-    },
-    {
-      id: "r5",
-      name: "Flash Foods",
-      cuisine: "Fast Food",
-      rating: 4.2,
-      time: "22 mins",
-      image:
-        "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          id: "r5m1",
-          name: "Classic Veg Burger",
-          desc: "Crispy veg patty, cheese and veggies.",
-          price: 120,
-          veg: true,
-          rating: 4.3,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r5m2",
-          name: "Chicken Crispy Burger",
-          desc: "Fried chicken fillet with spicy mayo.",
-          price: 150,
-          veg: false,
-          rating: 4.4,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r5m3",
-          name: "Cheese Burst Pizza (7\")",
-          desc: "Mini pizza with gooey cheese center.",
-          price: 260,
-          veg: true,
-          rating: 4.5,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r5m4",
-          name: "Cold Coffee",
-          desc: "Thick cold coffee with ice cream.",
-          price: 110,
-          veg: true,
-          rating: 4.2,
-          category: "Beverage",
-          image:
-            "https://images.pexels.com/photos/4109744/pexels-photo-4109744.jpeg?auto=compress&cs=tinysrgb&w=800"
-        }
-      ]
-    },
-    {
-      id: "r6",
-      name: "Bhimishetty's Ruchulu",
-      cuisine: "Home Style",
-      rating: 4.5,
-      time: "27 mins",
-      image:
-        "https://images.pexels.com/photos/3214161/pexels-photo-3214161.jpeg?auto=compress&cs=tinysrgb&w=800",
-      menu: [
-        {
-          id: "r6m1",
-          name: "Veg Meals",
-          desc: "Rice, curries, sambar, curd & papad.",
-          price: 160,
-          veg: true,
-          rating: 4.4,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/5908358/pexels-photo-5908358.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r6m2",
-          name: "Gongura Chicken with Rice",
-          desc: "Authentic spicy gongura chicken curry.",
-          price: 230,
-          veg: false,
-          rating: 4.5,
-          category: "FastFood",
-          image:
-            "https://images.pexels.com/photos/6163541/pexels-photo-6163541.jpeg?auto=compress&cs=tinysrgb&w=800"
-        },
-        {
-          id: "r6m3",
-          name: "Vanilla Ice Cream",
-          desc: "Classic vanilla scoop.",
-          price: 80,
-          veg: true,
-          rating: 4.1,
-          category: "Dessert",
-          image:
-            "https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=800"
-        }
-      ]
-    }
+    {id:'r1',name:'NRL Specials',cuisine:'Andhra',rating:4.6,time:'30 mins',image:'NRL restarunt.jpeg',menu:[
+      {id:'r1m1',name:'NRL Special Chicken Dum Biryani',price:240,veg:false,category:'Biryani',image:'NRL special chicken biriyani.png'},
+      {id:'r1m2',name:'Special Mutton Biryani',price:310,veg:false,category:'Biryani',image:'NRL mutton biriyani.png'},
+      {id:'r1m3',name:'Paneer Dum Biryani',price:220,veg:true,category:'Biryani',image:'NRL paneer briyani.jpeg'},
+      {id:'r1m4',name:'Margherita Pizza 9"',price:260,veg:true,category:'FastFood',image:'NRL Margherita pizza9.png'},
+      {id:'r1m5',name:'Chicken Zinger Burger',price:180,veg:false,category:'FastFood',image:'NRL chicken zinger burger.png'},
+      {id:'r1m6',name:'Chocolate Ice Cream Cup',price:70,veg:true,category:'Dessert',image:'NRL icecream.png'},
+      {id:'r1m7',name:'Thums Up 750ml',price:60,veg:true,category:'Beverage',image:'NRL drinks.png'}
+    ]},
+    {id:'r2',name:'Sohel Biriyani',cuisine:'Arabian',rating:4.5,time:'32 mins',image:'sohel restarunt.png',menu:[
+      {id:'r2m1',name:'Chicken Majboos Biryani',price:280,veg:false,category:'Biryani',image:'Sohel majaboos.png'},
+      {id:'r2m2',name:'Sohel Special Mandi Half',price:420,veg:false,category:'Mandi',image:'Sohel mandi.png'},
+      {id:'r2m3',name:'Kunafa Slice',price:180,veg:true,category:'Dessert',image:'Sohel kunafa.png'},
+      {id:'r2m4',name:'Arabian Chicken Pizza',price:320,veg:false,category:'FastFood',image:'Sohel pizza.png'},
+      {id:'r2m5',name:'Falooda Ice Cream',price:150,veg:true,category:'Dessert',image:'Sohel falooda.png'},
+      {id:'r2m6',name:'7UP 600ml',price:50,veg:true,category:'Beverage',image:'Sohel drink.png'}
+    ]},
+    {id:'r3',name:'Adil Mandi House',cuisine:'Arabian',rating:4.3,time:'35 mins',image:'adil restarunt.png',menu:[
+      {id:'r3m1',name:'Chicken Mandi Single',price:260,veg:false,category:'Mandi',image:'Adil single mandi.png'},
+      {id:'r3m2',name:'Adil Family Mandi',price:1050,veg:false,category:'Mandi',image:'Adil family mandi.png'},
+      {id:'r3m3',name:'Mint Lemon Cooler',price:90,veg:true,category:'Beverage',image:'Adil mint lemon.png'},
+      {id:'r3m4',name:'Arabic Chicken Burger',price:190,veg:false,category:'FastFood',image:'Adil chicken burger.png'},
+      {id:'r3m5',name:'Tandoori Chicken Pizza 9"',price:340,veg:false,category:'FastFood',image:'Adil tandoori pizza.png'},
+      {id:'r3m6',name:'Baklava Ice Cream',price:180,veg:true,category:'Dessert',image:'Adil icecream.png'}
+    ]},
+    {id:'r4',name:'Farhan Flash Foods',cuisine:'Fast Food',rating:4.2,time:'22 mins',image:'Frhan flash foods.png',menu:[
+      {id:'r4m1',name:'Classic Veg Burger',price:120,veg:true,category:'FastFood',image:'Farhan veg burger.jpeg'},
+      {id:'r4m2',name:'Chicken Crispy Burger',price:150,veg:false,category:'FastFood',image:'Farhan crispy burger.png'},
+      {id:'r4m3',name:'Cheese Burst Pizza 7"',price:260,veg:true,category:'FastFood',image:'Farhan cheese pizza.png'},
+      {id:'r4m4',name:'Veg Supreme Biryani',price:210,veg:true,category:'Biryani',image:'Farhan biriyani.png'},
+      {id:'r4m5',name:'Brownie with Ice Cream',price:140,veg:true,category:'Dessert',image:'Farhan brownie icecream.png'},
+      {id:'r4m6',name:'Pepsi Can 330ml',price:45,veg:true,category:'Beverage',image:'Farhan pepsi.png'}
+    ]},
+    {id:'r5',name:'Bulagondla Family Restaurant',cuisine:'South Indian',rating:4.4,time:'28 mins',image:'Bulagondla restarunt.png',menu:[
+      {id:'r5m1',name:'Family Chicken Biryani 4 pax',price:650,veg:false,category:'Biryani',image:'Bulagondla family biriyani.png'},
+      {id:'r5m2',name:'Veg Family Meal Combo',price:520,veg:true,category:'FastFood',image:'Bulagondla veg family meal.png'},
+      {id:'r5m3',name:'Gulab Jamun with Ice Cream',price:110,veg:true,category:'Dessert',image:'Bulagondla gulabjam icecream.png'},
+      {id:'r5m4',name:'Masala Pepsi',price:60,veg:true,category:'Beverage',image:'Bulagondla masala pepsi.png'},
+      {id:'r5m5',name:'Paneer Tikka Pizza 9"',price:320,veg:true,category:'FastFood',image:'Bulagondla panner tikka pizza.png'}
+    ]},
+    {id:'r6',name:'Bheemishetty Ruchulu',cuisine:'Home Style',rating:4.5,time:'27 mins',image:'Bheemi restarunt.png',menu:[
+      {id:'r6m1',name:'Veg Meals',price:160,veg:true,category:'FastFood',image:'Bheemi veg meals.png'},
+      {id:'r6m2',name:'Gongura Chicken with Rice',price:230,veg:false,category:'FastFood',image:'Bheemi gongura chicken.png'},
+      {id:'r6m3',name:'Home Style Chicken Biryani',price:240,veg:false,category:'Biryani',image:'Bheemi biriyani.png'},
+      {id:'r6m4',name:'Butterscotch Ice Cream',price:80,veg:true,category:'Dessert',image:'Bheemi butterscotch icecream.png'},
+      {id:'r6m5',name:'Fresh Lime Soda',price:50,veg:true,category:'Beverage',image:'Bheemi lime soda.png'}
+    ]}
   ];
 
-  const allItems = restaurants.flatMap(r =>
-    r.menu.map(m => ({ ...m, restaurantId: r.id, restaurantName: r.name, restaurantRating: r.rating }))
-  );
-
-  // ---------- STATE ----------
-  let currentPage = "home";
-  let lastPage = "home";
-  let currentFilter = "all"; // all | veg | nonveg
   let cart = [];
-  let orders = [];
+  let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  let currentFilter = 'all';
   let currentRestaurantId = null;
 
-  // ---------- PAGE NAV ----------
-  const pages = document.querySelectorAll(".page");
-  const navLinks = document.querySelectorAll(".nav-link");
+ function showPage(pageId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll(`[data-page="${pageId}"]`).forEach(n=>n.classList.add('active'));
+  if(pageId==='home') renderHome();
+  if(pageId==='restaurants') renderRestaurants();
+  if(pageId==='cart') renderCart();
+  if(pageId==='orders') renderOrders();
+  if(pageId==='order-history') renderOrderHistory(); // NEW
+}
 
-  function showPage(id) {
-    if (id === currentPage) return;
-    lastPage = currentPage;
-    currentPage = id;
-    pages.forEach(p => p.classList.toggle("active", p.id === id));
-    navLinks.forEach(btn =>
-      btn.classList.toggle("active", btn.dataset.pageTarget === id)
-    );
+  function goBackFromDetail(){
+    showPage('restaurants');
+  }
+  function goBackFromCart(){
+    showPage('restaurants');
   }
 
-  navLinks.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const target = btn.dataset.pageTarget;
-      showPage(target);
-    });
+  document.getElementById('menu-toggle').addEventListener('click',()=>{
+    document.getElementById('sidebar').classList.toggle('active');
+  });
+  document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(el=>{
+    el.addEventListener('click',()=>showPage(el.dataset.page));
+  });
+  document.getElementById('categories').addEventListener('click',e=>{
+    const btn = e.target.closest('.category');
+    if(!btn) return;
+    document.querySelector('.category.active').classList.remove('active');
+    btn.classList.add('active');
+    currentFilter = btn.dataset.category;
+    renderHome();
   });
 
-  document.getElementById("home-view-menu").addEventListener("click", () => {
-    showPage("restaurants");
-    renderRestaurantGrid();
-  });
-
-  // ---------- FILTERS ----------
-  const chips = document.querySelectorAll(".chip");
-  chips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      chips.forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
-      currentFilter = chip.dataset.filter;
-      renderHomeRows();
-    });
-  });
-
-  function passesFilter(item) {
-    if (currentFilter === "veg") return item.veg;
-    if (currentFilter === "nonveg") return !item.veg;
-    return true;
+  function renderHome(){
+    const allItems = restaurants.flatMap(r=>r.menu.map(m=>({...m,restaurantName:r.name,restaurantId:r.id})));
+    const filtered = currentFilter==='all'?allItems:allItems.filter(i=>i.category===currentFilter);
+    document.getElementById('food-grid').innerHTML = filtered.map(item=>`
+      <div class="food-card" onclick="addToCart('${item.id}','${item.restaurantId}','${item.restaurantName}',${item.price},'${item.name}',${item.veg},'${item.category}','${item.image}')">
+        <img class="food-image" src="${item.image}" alt="${item.name}">
+        <div class="food-content">
+          <div class="food-header">
+            <div class="food-name">${item.name}</div>
+            <div class="food-price">₹${item.price}</div>
+          </div>
+          <div class="food-meta">
+            <span class="badge ${item.veg?'veg':'non-veg'}">${item.veg?'Veg':'Non-Veg'}</span>
+            <span class="restaurant-tag">${item.restaurantName}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
   }
 
-  // ---------- CARD RENDERING ----------
-  function createFoodCard(item) {
-    const card = document.createElement("article");
-    card.className = "food-card";
-    card.innerHTML = `
-      <img class="food-card-img" src="${item.image}" alt="${item.name}">
-      <div class="food-card-body">
-        <div class="badge-row">
-          <span class="badge">${item.veg ? "VEG" : "NON-VEG"}</span>
-          <span class="rating">★ ${item.rating.toFixed(1)}</span>
+  /* UPDATED RESTAURANT CARDS */
+ function renderRestaurants(){
+  const grid = document.getElementById('restaurant-grid');
+  grid.innerHTML = restaurants.map(r=>{
+    // you can customize tags per restaurant if you want
+    let tags = 'Popular: Biryani · Pizza · Burgers';
+    if(r.cuisine === 'Arabian') tags = 'Popular: Mandi · Kunafa · Grilled Chicken';
+    if(r.cuisine === 'Fast Food') tags = 'Popular: Burgers · Fries · Pizzas';
+    if(r.cuisine === 'South Indian') tags = 'Popular: Family Meals · Biryani · Desserts';
+    if(r.cuisine === 'Home Style') tags = 'Popular: Veg Meals · Home Biryani · Lime Soda';
+
+    const desc = `${r.cuisine} • Biryani, Fast food, Desserts`;
+
+    return `
+      <div class="restaurant-card" onclick="openRestaurant('${r.id}')">
+        <img class="restaurant-image" src="${r.image}" alt="${r.name}">
+        <div class="restaurant-info">
+          <div>
+            <h3>${r.name}</h3>
+            <div class="restaurant-desc">${desc}</div>
+            <div class="restaurant-tags">${tags}</div>
+          </div>
+          <div class="restaurant-meta-row">
+            <span class="restaurant-rating">★ ${r.rating}</span>
+            <span class="restaurant-time">${r.time}</span>
+          </div>
+          <div class="restaurant-meta-row">
+            <span class="restaurant-open">Open now</span>
+            <span style="font-size:11px;color:#9ca3af;">Tap to view menu</span>
+          </div>
         </div>
-        <div class="food-name">${item.name}</div>
-        <div class="food-desc">${item.desc}</div>
-        <div class="food-meta-line">
-          <span class="${item.veg ? "veg-dot" : "nonveg-dot"}"></span>
-          <span class="restaurant-pill">${item.restaurantName}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+
+  /* DETAIL PAGE – horizontal rows */
+  function openRestaurant(id){
+    currentRestaurantId = id;
+    const r = restaurants.find(x=>x.id===id);
+    if(!r) return;
+
+    document.getElementById('detail-title').textContent = r.name + ' menu';
+
+    const biryanis = r.menu.filter(m=>m.category==='Biryani');
+    const fast = r.menu.filter(m=>m.category==='FastFood');
+    const mandi = r.menu.filter(m=>m.category==='Mandi');
+    const desserts = r.menu.filter(m=>m.category==='Dessert');
+    const drinks = r.menu.filter(m=>m.category==='Beverage');
+
+    const sections = [
+      {title:'Biryanis', items:biryanis},
+      {title:'Mandi & Chicken', items:mandi},
+      {title:'Pizzas & Burgers', items:fast},
+      {title:'Ice Creams & Desserts', items:desserts},
+      {title:'Cool Drinks & Beverages', items:drinks}
+    ];
+
+    const html = sections
+      .filter(s=>s.items.length)
+      .map(s=>renderSection(r,s.title,s.items))
+      .join('');
+
+    document.getElementById('restaurant-detail-content').innerHTML = html;
+    showPage('restaurant-detail');
+  }
+
+  function renderSection(r,title,items){
+    let dotClass = 'dot-other';
+    if(title==='Biryanis' || title==='Mandi & Chicken' || title==='Pizzas & Burgers') dotClass = 'dot-nonveg';
+    if(title==='Ice Creams & Desserts' || title==='Cool Drinks & Beverages') dotClass = 'dot-other';
+
+    return `
+      <div class="restaurant-section">
+        <div class="restaurant-section-title">${title}</div>
+        <div class="dot-label">
+          <span class="dot ${dotClass}"></span>
+          <span>${title}</span>
         </div>
-        <div class="food-footer">
-          <span class="price">₹${item.price}</span>
-          <button class="add-btn" data-add-id="${item.id}" data-add-restaurant="${item.restaurantId}">
-            <span>+</span> Add
+        <div class="restaurant-items-row">
+          ${items.map(it=>renderItemCard(r,it)).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderItemCard(r,it){
+    const isVeg = it.veg;
+    const typeDot = isVeg ? 'dot-veg' : 'dot-nonveg';
+    return `
+      <div class="restaurant-item-card">
+        <img class="restaurant-item-img" src="${it.image}" alt="${it.name}">
+        <div class="restaurant-item-main">
+          <div class="restaurant-item-name">${it.name}</div>
+          <div class="restaurant-item-meta">
+            <span class="dot ${typeDot}"></span>
+            <span>${isVeg ? 'Veg' : 'Non‑Veg'}</span>
+          </div>
+          <div class="restaurant-item-price">₹${it.price}</div>
+        </div>
+        <div class="item-qty-controls">
+          <div class="item-qty-row">
+            <button class="item-qty-btn" onclick="changeItemQty('${it.id}',-1,event)">−</button>
+            <span class="item-qty-value" id="qty-${it.id}">1</span>
+            <button class="item-qty-btn" onclick="changeItemQty('${it.id}',1,event)">+</button>
+          </div>
+          <button class="item-add-btn"
+            onclick="addDetailToCart('${it.id}','${r.id}','${r.name}',${it.price},'${it.name}',${it.veg},'${it.category}','${it.image}',event)">
+            Add
           </button>
         </div>
       </div>
     `;
-    return card;
   }
 
-  function renderRow(rowId, categoryFilterFn) {
-    const rowEl = document.getElementById(rowId);
-    rowEl.innerHTML = "";
-    const items = allItems.filter(i => categoryFilterFn(i) && passesFilter(i));
-    items.forEach(i => rowEl.appendChild(createFoodCard(i)));
+  function changeItemQty(id,delta,event){
+    event.stopPropagation();
+    const el = document.getElementById('qty-'+id);
+    let v = parseInt(el.textContent)||1;
+    v += delta;
+    if(v<1) v = 1;
+    el.textContent = v;
   }
 
-  function renderHomeRows() {
-    renderRow("row-biryani", i => i.category === "Biryani");
-    renderRow("row-mandi", i => i.category === "Mandi");
-    renderRow("row-fastfood", i => i.category === "FastFood");
-    renderRow(
-      "row-dessert",
-      i => i.category === "Dessert" || i.category === "Beverage"
-    );
-  }
-
-  // ---------- RESTAURANTS ----------
-  const restaurantGridEl = document.getElementById("restaurant-grid");
-
-  function renderRestaurantGrid() {
-    restaurantGridEl.innerHTML = "";
-    const searchTerm = (document.getElementById("rest-search").value || "").toLowerCase();
-    restaurants
-      .filter(r => {
-        if (!searchTerm) return true;
-        const nameMatch = r.name.toLowerCase().includes(searchTerm);
-        const menuMatch = r.menu.some(m =>
-          m.name.toLowerCase().includes(searchTerm)
-        );
-        return nameMatch || menuMatch;
-      })
-      .forEach(r => {
-        const card = document.createElement("article");
-        card.className = "rest-card";
-        card.dataset.restaurantId = r.id;
-        card.innerHTML = `
-          <img class="rest-img" src="${r.image}" alt="${r.name}">
-          <div class="rest-main">
-            <h3>${r.name}</h3>
-            <div class="rest-meta">
-              <span>${r.cuisine}</span>
-              <span>★ ${r.rating}</span>
-              <span>${r.time}</span>
-            </div>
-          </div>
-        `;
-        restaurantGridEl.appendChild(card);
-      });
-  }
-
-  document.getElementById("rest-search").addEventListener("input", renderRestaurantGrid);
-
-  // click restaurant -> detail
-  restaurantGridEl.addEventListener("click", e => {
-    const card = e.target.closest(".rest-card");
-    if (!card) return;
-    const id = card.dataset.restaurantId;
-    openRestaurantDetail(id);
-  });
-
-  function openRestaurantDetail(id) {
-    const rest = restaurants.find(r => r.id === id);
-    if (!rest) return;
-    currentRestaurantId = id;
-    document.getElementById("detail-name").textContent = rest.name;
-    document.getElementById("detail-sub").textContent =
-      `${rest.cuisine} • ★ ${rest.rating} • ${rest.time}`;
-
-    const grid = document.getElementById("detail-grid");
-    grid.innerHTML = "";
-    rest.menu.forEach(m => {
-      const itemWithRest = {
-        ...m,
-        restaurantId: rest.id,
-        restaurantName: rest.name
-      };
-      grid.appendChild(createFoodCard(itemWithRest));
-    });
-
-    showPage("restaurant-detail");
-  }
-
-  document.getElementById("rest-back").addEventListener("click", () => {
-    showPage("restaurants");
-  });
-
-  // category links from home
-  document.querySelectorAll("[data-open-category]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const cat = btn.dataset.openCategory;
-      showPage("restaurants");
-      // in restaurants view, filter by category via search term trick
-      document.getElementById("rest-search").value = "";
-      renderRestaurantGrid();
-      // open restaurant-detail-like view with only that category across all restaurants? easier: just keep restaurant page.
-      // you can extend if needed.
-    });
-  });
-
-  // ---------- CART ----------
-  const cartEmptyEl = document.getElementById("cart-empty");
-  const cartLayoutEl = document.getElementById("cart-layout");
-  const cartItemsEl = document.getElementById("cart-items");
-  const cartSubtotalEl = document.getElementById("cart-subtotal");
-  const cartDeliveryEl = document.getElementById("cart-delivery");
-  const cartTotalEl = document.getElementById("cart-total");
-
-  function addToCart(restaurantId, itemId) {
-    const rest = restaurants.find(r => r.id === restaurantId);
-    if (!rest) return;
-    const item = rest.menu.find(m => m.id === itemId);
-    if (!item) return;
-    const existing = cart.find(
-      c => c.restaurantId === restaurantId && c.itemId === itemId
-    );
-    if (existing) {
-      existing.qty += 1;
-    } else {
-      cart.push({
-        restaurantId,
-        restaurantName: rest.name,
-        itemId: item.id,
-        name: item.name,
-        price: item.price,
-        qty: 1
-      });
+  function addDetailToCart(id,restaurantId,restaurantName,price,name,veg,category,image,event){
+    event.stopPropagation();
+    const qtyEl = document.getElementById('qty-'+id);
+    const qty = parseInt(qtyEl.textContent)||1;
+    for(let i=0;i<qty;i++){
+      addToCart(id,restaurantId,restaurantName,price,name,veg,category,image,false);
     }
+  }
+
+  /* CART */
+  function addToCart(id,restaurantId,restaurantName,price,name,veg,category,image,goCart=true){
+    const existing = cart.find(i=>i.id===id);
+    if(existing) existing.qty+=1;
+    else cart.push({id,restaurantId,restaurantName,price:parseInt(price),name,veg,category,image,qty:1});
+    updateCartCount();
+    if(goCart) showPage('cart');
+  }
+
+  function renderCart(){
+    const itemsEl = document.getElementById('cart-items');
+    const summaryWrap = document.getElementById('cart-summary');
+    if(cart.length===0){
+      itemsEl.innerHTML = `<div style="text-align:center;padding:40px 8px;color:#6b7280;">
+        <i class="fas fa-shopping-cart" style="font-size:46px;margin-bottom:10px;opacity:.5;"></i>
+        <div style="font-size:15px;">Your cart is empty</div>
+        <div style="font-size:13px;">Add some dishes from Home or Restaurants.</div>
+      </div>`;
+      summaryWrap.style.display='none';
+      return;
+    }
+    itemsEl.innerHTML = cart.map(item=>`
+      <div class="cart-item">
+        <img class="cart-item-image" src="${item.image}" alt="${item.name}">
+        <div>
+          <div class="cart-item-name">${item.name}</div>
+          <div style="font-size:12px;color:#6b7280;">${item.restaurantName}</div>
+          <div style="font-size:13px;font-weight:600;margin-top:4px;">₹${item.price*item.qty}</div>
+        </div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="updateQty('${item.id}',-1)">−</button>
+          <span style="min-width:18px;text-align:center;font-weight:600;">${item.qty}</span>
+          <button class="qty-btn" onclick="updateQty('${item.id}',1)">+</button>
+        </div>
+        <button onclick="removeFromCart('${item.id}')" style="background:none;border:none;color:#b91c1c;font-size:18px;cursor:pointer;">×</button>
+      </div>
+    `).join('');
+    const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+    const delivery = subtotal>0?40:0;
+    document.getElementById('subtotal').textContent=`₹${subtotal}`;
+    document.getElementById('delivery').textContent=`₹${delivery}`;
+    document.getElementById('total').textContent=`₹${subtotal+delivery}`;
+    summaryWrap.style.display='block';
+  }
+
+  function updateQty(id,change){
+    const item = cart.find(i=>i.id===id);
+    if(!item) return;
+    item.qty += change;
+    if(item.qty<=0) cart = cart.filter(i=>i.id!==id);
+    updateCartCount();
+    renderCart();
+  }
+  function removeFromCart(id){
+    cart = cart.filter(i=>i.id!==id);
+    updateCartCount();
     renderCart();
   }
 
-  function renderCart() {
-    if (cart.length === 0) {
-      cartEmptyEl.classList.remove("hidden");
-      cartLayoutEl.classList.add("hidden");
-      cartItemsEl.innerHTML = "";
-      cartSubtotalEl.textContent = "₹0";
-      cartDeliveryEl.textContent = "₹0";
-      cartTotalEl.textContent = "₹0";
-      return;
-    }
-    cartEmptyEl.classList.add("hidden");
-    cartLayoutEl.classList.remove("hidden");
-    cartItemsEl.innerHTML = "";
-    let subtotal = 0;
-    cart.forEach(row => {
-      subtotal += row.qty * row.price;
-      const div = document.createElement("div");
-      div.className = "cart-item";
-      div.innerHTML = `
-        <div class="cart-item-main">
-          <div class="cart-item-name">${row.name}</div>
-          <div class="cart-item-rest">${row.restaurantName}</div>
-        </div>
-        <div class="cart-controls">
-          <div class="qty-box">
-            <button class="qty-btn" data-qty="minus" data-r="${row.restaurantId}" data-i="${row.itemId}">-</button>
-            <div class="qty-value">${row.qty}</div>
-            <button class="qty-btn" data-qty="plus" data-r="${row.restaurantId}" data-i="${row.itemId}">+</button>
-          </div>
-          <div>₹${row.qty * row.price}</div>
-          <button class="cart-remove" data-remove="1" data-r="${row.restaurantId}" data-i="${row.itemId}">Remove</button>
-        </div>
-      `;
-      cartItemsEl.appendChild(div);
-    });
-    const delivery = subtotal > 0 ? 40 : 0;
-    const total = subtotal + delivery;
-    cartSubtotalEl.textContent = "₹" + subtotal;
-    cartDeliveryEl.textContent = "₹" + delivery;
-    cartTotalEl.textContent = "₹" + total;
-  }
-
-  cartItemsEl.addEventListener("click", e => {
-    const minus = e.target.closest("[data-qty='minus']");
-    const plus = e.target.closest("[data-qty='plus']");
-    const remove = e.target.closest("[data-remove]");
-    if (minus || plus) {
-      const r = (minus || plus).dataset.r;
-      const i = (minus || plus).dataset.i;
-      const row = cart.find(c => c.restaurantId === r && c.itemId === i);
-      if (!row) return;
-      if (plus) row.qty += 1;
-      if (minus) row.qty -= 1;
-      if (row.qty <= 0) {
-        cart = cart.filter(c => !(c.restaurantId === r && c.itemId === i));
-      }
-      renderCart();
-    } else if (remove) {
-      const r = remove.dataset.r;
-      const i = remove.dataset.i;
-      cart = cart.filter(c => !(c.restaurantId === r && c.itemId === i));
-      renderCart();
-    }
-  });
-
-  // add to cart from any card
-  document.addEventListener("click", e => {
-    const btn = e.target.closest("[data-add-id]");
-    if (!btn) return;
-    const itemId = btn.dataset.addId;
-    const restId = btn.dataset.addRestaurant;
-    addToCart(restId, itemId);
-  });
-
-  // checkout -> create order
-  document.getElementById("checkout-form").addEventListener("submit", e => {
-    e.preventDefault();
-    if (cart.length === 0) return;
-    const name = document.getElementById("chk-name").value.trim();
-    const phone = document.getElementById("chk-phone").value.trim();
-    const addr = document.getElementById("chk-address").value.trim();
-    const pay = document.getElementById("chk-pay").value;
-    let subtotal = 0;
-    cart.forEach(row => (subtotal += row.qty * row.price));
-    const delivery = subtotal > 0 ? 40 : 0;
-    const total = subtotal + delivery;
+  function placeOrder(){
+    if(!cart.length) return;
+    const subtotal = cart.reduce((s,i)=>s+i.price*i.qty,0);
+    const delivery = 40;
     const order = {
       id: Date.now(),
-      name,
-      phone,
-      addr,
-      pay,
-      total,
-      when: new Date().toLocaleString(),
-      items: cart.map(c => ({ ...c }))
+      items:[...cart],
+      subtotal,
+      delivery,
+      total: subtotal+delivery,
+      timestamp:new Date().toLocaleString('en-IN'),
+      status:'Placed'
     };
     orders.unshift(order);
+    localStorage.setItem('orders',JSON.stringify(orders));
     cart = [];
+    updateCartCount();
     renderCart();
+    alert('Order placed successfully! Check Orders tab.');
+    showPage('orders');
+  }
+
+  /* delete order feature */
+  function deleteOrder(id){
+    orders = orders.filter(o=>o.id!==id);
+    localStorage.setItem('orders', JSON.stringify(orders));
     renderOrders();
-    alert("Order placed successfully!");
-    showPage("orders");
-  });
+  }
 
-  // ---------- ORDERS ----------
-  const ordersEmptyEl = document.getElementById("orders-empty");
-  const ordersListEl = document.getElementById("orders-list");
-
-  function renderOrders() {
-    if (orders.length === 0) {
-      ordersEmptyEl.classList.remove("hidden");
-      ordersListEl.innerHTML = "";
+  function renderOrders(){
+    const el = document.getElementById('orders-list');
+    if(!orders.length){
+      el.innerHTML = `<div style="text-align:center;padding:40px 8px;color:#6b7280;">
+        <i class="fas fa-clipboard-list" style="font-size:46px;margin-bottom:10px;opacity:.5;"></i>
+        <div style="font-size:15px;">No orders yet</div>
+        <div style="font-size:13px;">Place your first order from Home.</div>
+      </div>`;
+      el.style.display='block';
       return;
     }
-    ordersEmptyEl.classList.add("hidden");
-    ordersListEl.innerHTML = "";
-    orders.forEach(o => {
-      const card = document.createElement("article");
-      card.className = "order-card";
-      card.innerHTML = `
-        <div class="order-header">
-          <div>#${o.id}</div>
-          <div>₹${o.total}</div>
+    el.innerHTML = orders.map(o=>`
+      <div style="background:var(--surface);border-radius:16px;border:1px solid rgba(148,163,184,0.6);padding:14px;box-shadow:var(--shadow-soft);margin-bottom:10px;color:#111827;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="font-size:13px;font-weight:600;">Order #${o.id}</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="color:#b91c1c;font-weight:700;">₹${o.total}</div>
+            <button
+              onclick="deleteOrder(${o.id})"
+              style="border:none;border-radius:999px;padding:4px 10px;font-size:11px;
+                     background:#fee2e2;color:#b91c1c;cursor:pointer;">
+              Delete
+            </button>
+          </div>
         </div>
-        <div class="order-meta">
-          ${o.name}, ${o.phone}<br>
-          ${o.addr}<br>
-          Payment: ${o.pay} • ${o.when}
-        </div>
-        <div class="order-items">
-          <strong>Items:</strong>
-          <ul>
-            ${o.items
-              .map(
-                it =>
-                  `<li>${it.qty} × ${it.name} (${it.restaurantName})</li>`
-              )
-              .join("")}
-          </ul>
-        </div>
-      `;
-      ordersListEl.appendChild(card);
-    });
+        <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">${o.timestamp} • ${o.status}</div>
+        <ul style="margin:0 0 0 18px;font-size:12px;">
+          ${o.items.map(it=>`<li>${it.qty}× ${it.name} (${it.restaurantName})</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+    el.style.display='block';
+  }
+  function renderOrderHistory(){
+  const el = document.getElementById('order-history-list');
+  if(!orders.length){
+    el.innerHTML = `<div style="text-align:center;padding:40px 8px;color:#6b7280;">
+      <i class="fas fa-clock-rotate-left" style="font-size:46px;margin-bottom:10px;opacity:.5;"></i>
+      <div style="font-size:15px;">No order history yet</div>
+      <div style="font-size:13px;">Place an order to see it here.</div>
+    </div>`;
+    el.style.display='block';
+    return;
   }
 
-  // ---------- PROFILE & LOGIN ----------
-  const profileGuest = document.getElementById("profile-guest");
-  const profileInfo = document.getElementById("profile-info");
-  const profileName = document.getElementById("profile-name");
-  const profileEmail = document.getElementById("profile-email");
+  el.innerHTML = orders.map(o => `
+    <div style="background:var(--surface);border-radius:16px;border:1px solid rgba(148,163,184,0.6);padding:14px;box-shadow:var(--shadow-soft);margin-bottom:10px;color:#111827;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div style="font-size:13px;font-weight:600;">Order #${o.id}</div>
+        <div style="color:#b91c1c;font-weight:700;">₹${o.total}</div>
+      </div>
+      <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">${o.timestamp} • ${o.status}</div>
+      <ul style="margin:0 0 0 18px;font-size:12px;">
+        ${o.items.map(it => `<li>${it.qty}× ${it.name} (${it.restaurantName})</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+  el.style.display='block';
+}
 
-  function loadProfile() {
-    const data = JSON.parse(localStorage.getItem("rk_profile") || "null");
-    if (!data) {
-      profileGuest.classList.remove("hidden");
-      profileInfo.classList.add("hidden");
+
+  function updateCartCount(){
+    const count = cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('cart-count').textContent = count;
+  }
+  function updateGreeting(){
+  const h1 = document.getElementById('greeting-text');
+  if(!h1) return;
+  const now = new Date();
+  const hour = now.getHours(); // 0–23
+
+  if(hour < 12){
+    h1.textContent = 'Good Morning!';
+  }else if(hour < 19){
+    h1.textContent = 'Good Afternoon!';
+  }else{
+    h1.textContent = 'Welcome to Reddy\'s Kitchen, how can I help you?';
+  }
+}
+
+
+  /* PROFILE / AVATAR */
+  const modalBackdrop = document.getElementById('profile-modal-backdrop');
+  const profileClose = document.getElementById('profile-close');
+  const profileCancel = document.getElementById('profile-cancel');
+  const profileSave = document.getElementById('profile-save');
+  const profilePhotoInput = document.getElementById('profile-photo');
+  const profilePhotoPreview = document.getElementById('profile-photo-preview');
+  const topProfile = document.getElementById('top-profile');
+  const topAvatarImg = document.getElementById('top-avatar-img');
+  const topAvatarInitial = document.getElementById('top-avatar-initial');
+  const topProfileName = document.getElementById('top-profile-name');
+
+  function openProfileModal(){
+    modalBackdrop.classList.add('visible');
+  }
+  function closeProfileModal(){
+    modalBackdrop.classList.remove('visible');
+  }
+  topProfile.addEventListener('click',openProfileModal);
+  profileClose.addEventListener('click',closeProfileModal);
+  profileCancel.addEventListener('click',closeProfileModal);
+  modalBackdrop.addEventListener('click',e=>{
+    if(e.target===modalBackdrop) closeProfileModal();
+  });
+
+  function loadProfile(){
+    const data = JSON.parse(localStorage.getItem('rkProfile') || 'null');
+    if(!data){
+      topProfileName.textContent = 'Guest user';
+      topProfileName.style.display = 'inline-block';
+      topAvatarImg.style.display = 'none';
+      topAvatarInitial.style.display = 'inline-block';
+      topAvatarInitial.textContent = 'R';
+      return;
+    }
+    const initial = (data.name || 'R')[0].toUpperCase();
+    const displayName = data.name && data.name.trim() ? data.name.trim() : 'Guest user';
+    topProfileName.textContent = displayName;
+    topProfileName.style.display = 'inline-block';
+
+    document.getElementById('profile-name').value  = data.name  || '';
+    document.getElementById('profile-email').value = data.email || '';
+    document.getElementById('profile-mobile').value = data.mobile || '';
+    document.getElementById('profile-display-name').textContent = displayName;
+
+    if (data.photo) {
+      topAvatarImg.src = data.photo;
+      topAvatarImg.style.display = 'block';
+      topAvatarInitial.style.display = 'none';
+      profilePhotoPreview.src = data.photo;
+      profilePhotoPreview.style.display = 'block';
     } else {
-      profileGuest.classList.add("hidden");
-      profileInfo.classList.remove("hidden");
-      profileName.textContent = data.name;
-      profileEmail.textContent = data.email;
+      topAvatarImg.style.display = 'none';
+      topAvatarInitial.style.display = 'inline-block';
+      topAvatarInitial.textContent = initial;
+      profilePhotoPreview.style.display = 'none';
     }
   }
 
-  document.getElementById("login-form").addEventListener("submit", e => {
-    e.preventDefault();
-    const name = document.getElementById("login-name").value.trim();
-    const email = document.getElementById("login-email").value.trim();
-    localStorage.setItem("rk_profile", JSON.stringify({ name, email }));
+  profilePhotoInput.addEventListener('change',e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      const existing = JSON.parse(localStorage.getItem('rkProfile') || '{}');
+      const data = {...existing, photo: reader.result};
+      localStorage.setItem('rkProfile', JSON.stringify(data));
+      topAvatarImg.src = reader.result;
+      topAvatarImg.style.display = 'block';
+      topAvatarInitial.style.display = 'none';
+      profilePhotoPreview.src = reader.result;
+      profilePhotoPreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  profileSave.addEventListener('click',()=>{
+    const name = document.getElementById('profile-name').value.trim();
+    const email = document.getElementById('profile-email').value.trim();
+    const mobile = document.getElementById('profile-mobile').value.trim();
+    const existing = JSON.parse(localStorage.getItem('rkProfile') || '{}');
+    const data = {...existing, name, email, mobile};
+    localStorage.setItem('rkProfile', JSON.stringify(data));
     loadProfile();
-    alert("Profile saved.");
-    showPage("profile");
+    closeProfileModal();
   });
 
-  document.getElementById("logout-btn").addEventListener("click", () => {
-    localStorage.removeItem("rk_profile");
-    loadProfile();
-  });
-
-  // ---------- SEARCH HOME ----------
-  document.getElementById("home-search").addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      showPage("restaurants");
-      document.getElementById("rest-search").value = e.target.value;
-      renderRestaurantGrid();
-    }
-  });
-
-  // ---------- INIT ----------
-  document.getElementById("year").textContent = new Date().getFullYear();
-  renderHomeRows();
-  renderRestaurantGrid();
-  renderCart();
-  renderOrders();
-  loadProfile();
+ /* INIT */
+updateGreeting();
+renderHome();
+renderRestaurants();
+renderCart();
+renderOrders();
+updateCartCount();
+loadProfile();
 </script>
 </body>
 </html>
